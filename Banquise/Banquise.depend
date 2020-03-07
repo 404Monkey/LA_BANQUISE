@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1583592097 source:c:\users\cbenj\documents\mesdocuments\progc\banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
+1583593806 source:c:\users\cbenj\documents\mesdocuments\progc\banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	"players.h"
+
+1582911463 c:\users\cbenj\documents\mesdocuments\progc\banquise\banquise.h
+	<stdio.h>
+	<stdlib.h>
+
+1583594931 source:c:\users\cbenj\documents\mesdocuments\progc\banquise\players.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	"players.h"
+
+1583593334 c:\users\cbenj\documents\mesdocuments\progc\banquise\players.h
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
