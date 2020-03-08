@@ -1,15 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 
 #include "players.h"
-
-
-void textcolor(int color)
-{
-HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(h,color);
-}
 
 t_player* CreerJoueur(t_color color, int id)
 {
@@ -34,6 +26,7 @@ void CreerTabJoueurs_aux(t_player* tab_joueurs, int nb_joueurs)
     for (int i=0; i<nb_joueurs; i++)
     {
         tab_joueurs[i] = *CreerJoueur(i,i);
+        tab_joueurs[i].position.x = i; //Init les positions de x pour chaque joueurs
     }
 }
 
@@ -47,17 +40,11 @@ int CreerTabJoueurs(t_player* tab_joueurs){
 
     tab_joueurs = malloc(sizeof(t_player)*nb_joueurs); // MEEEEHHHHH cest legit ??
 
-        CreerTabJoueurs_aux(tab_joueurs, nb_joueurs);
+    CreerTabJoueurs_aux(tab_joueurs, nb_joueurs);
 
     return nb_joueurs;
     }
 
-
-void AffectePositionJoueur(t_player* player, int posx, int posy)
-{
-    (*player).position.x = posx;
-    (*player).position.y = posy;
-}
 
 void AffectePositionJoueursMatrice(t_banquise* banquise, t_player* tab_players, int size_array)
 {
