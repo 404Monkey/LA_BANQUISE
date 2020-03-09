@@ -20,15 +20,27 @@ void CouleurTexte(int color)
         case BLUE : textcolor(1); break;
         case YELLOW : textcolor(6); break;
         case COLOR_DEFAULT : textcolor(7); break;
-        default textcolor(7);
+        default : textcolor(7);
     }
 }
 
-int CheckPosition(t_banquise* banquise, t_player* tab_player)
+int CheckPosition(int indbanqx, int indbanqy, int posplayerx, int posplayery)
 {
-
+    return ((indbanqx == posplayerx )&&(indbanqy == posplayery));
 }
 
+void ChangeCouleurJoueurMatrice(t_player* tab_players, int nb_player, int banqx, int banqy)
+{
+    int i;
+    for(i=0; i<nb_player; i++)
+    {
+        if(CheckPosition(banqx, banqy, tab_players[i].position.x, tab_players[i].position.y)==1)
+        {
+            CouleurTexte(tab_players[i].color);
+            break;
+        }else CouleurTexte(COLOR_DEFAULT);
+    }
+}
 
 void AfficheWithPlayers(t_banquise* banquise, t_player* tab_player, int nb_players)
 {
@@ -44,7 +56,7 @@ void AfficheWithPlayers(t_banquise* banquise, t_player* tab_player, int nb_playe
         {
             //présentation "esthetique" de chaque valeur de la matrice
             if(j%N == 0) printf("\n|");
-            if()
+            ChangeCouleurJoueurMatrice(tab_player, nb_players, j, i);
             printf("% d", matrice[i][j]);
             if(j%N == N-1) printf(" |");
         }

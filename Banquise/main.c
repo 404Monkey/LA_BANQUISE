@@ -32,7 +32,7 @@ int main()
         printf("posy %d : %d\n", tab_joueurs[i].id, tab_joueurs[i].position.y);
     }
 
-    //AffectePositionJoueursMatrice(my_banquise, my_tab_joueurs, player_size);
+    AfficheWithPlayers(my_banquise, tab_joueurs, nb_joueurs);
 
     return 0;
 }
