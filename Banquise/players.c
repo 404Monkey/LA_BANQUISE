@@ -45,12 +45,52 @@ int CreerTabJoueurs(t_player* tab_joueurs){
     return nb_joueurs;
     }
 
+/************** FONCTIONS AUX DE DEPLACEMENT ****************/
 
-void AffectePositionJoueursMatrice(t_banquise* banquise, t_player* tab_players, int size_array)
+void deplacement_y(t_player *player, int displacement)
 {
-    int i;
-    for(i=0; i<size_array; i++)
-    {
-        //printf("%d\n", tab_players[i].color);
+    int y_new =(player->position.y)+displacement; //la nouvelle position du joueur en Y
+    player->position.y = y_new;                       //affecte cette nouvelle position au joueur => le joueur monte ou descend
+}
+
+void deplacement_x(t_player *player, int displacement)
+{
+    int x_new=((*player).position.x)+displacement;     //la nouvelle position du joueur en X
+    (*player).position.x = x_new;                       //affecte cette nouvelle position au joueur => le joueur se déplace a gauche ou a droite
+}
+
+/*********** FONCTION PRINCIPALE DE DEPLACEMENT *************/
+
+void deplacement_player (t_player* player)
+{
+    char touch = getchar();
+    printf("test1");
+
+    while ( (touch!='z') && (touch!='s') && (touch!='q') && (touch!='d')){
+    printf("Votre deplacement (Z,S,Q ou D): ");
+    printf("test2");
+    scanf("%c", &touch);
+    printf("test3");
+    }
+
+printf("test4");
+
+    switch (touch){
+        case 'z':
+        deplacement_y(player,-1);
+        break;
+        switch (touch)
+        case 's':
+        deplacement_y(player,1);
+        break;
+        switch (touch)
+        case 'q':
+        deplacement_x(player,-1);
+        break;
+        case 'd':
+        deplacement_x(player,1);
+        break;
+    default:
+    printf("ERROR with deplacement_player(t_player player, t_board game_board) \n");
     }
 }

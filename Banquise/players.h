@@ -30,5 +30,5 @@ typedef struct
 t_player* CreerJoueur(t_color color, int id); // Creer un joueur
 void CreerTabJoueurs_aux(t_player* tab_joueurs, int nb_joueurs); //Creer tableau de joueurs
 int CreerTabJoueurs(t_player* tab_joueurs); // créer tableau de joueurs et retourne la taille du tableau
-void AffectePositionJoueursMatrice(t_banquise* banquise, t_player* tab_player, int size_array); // affecte les positions des joueurs
+//void AffectePositionJoueursMatrice(t_banquise* banquise, t_player* tab_player, int size_array); // affecte les positions des joueurs
 

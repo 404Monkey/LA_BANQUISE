@@ -25,6 +25,8 @@ int main()
 
     CreerTabJoueurs_aux(tab_joueurs, nb_joueurs);
 
+    deplacement_player(&tab_joueurs[3]);
+
     for (int i=0; i<nb_joueurs; i++)
     {
         printf("couleur %d : %d\n", tab_joueurs[i].id, tab_joueurs[i].color);
