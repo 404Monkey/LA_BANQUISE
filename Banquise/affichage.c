@@ -61,5 +61,5 @@ void AfficheWithPlayers(t_banquise* banquise, t_player* tab_player, int nb_playe
             if(j%N == N-1) printf(" |");
         }
     }
-    printf("\n");
+    printf("\n\n");
 }

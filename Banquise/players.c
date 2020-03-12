@@ -19,6 +19,7 @@ t_player* CreerJoueur(t_color color, int id)
     (*player).position.x = (*player).position.y = 0;
     (*player).vect.dx = (*player).vect.dy = 0;
     (*player).score = 0;
+    (*player).death = 0;
 
     return player;
 }
@@ -90,7 +91,7 @@ void displacement_x(t_player *player, int displacement)
 
 /*********** FONCTION PRINCIPALE DE DEPLACEMENT *************/
 
-void primary_displacement_player(t_player* player, char touch)
+void primary_displacement_player(t_player* player, char touch) //affecte au joueur la position souhaité
 {
     switch (touch){
         case 'z':
@@ -115,7 +116,7 @@ int verif_exit_board(int x, int y, int size_board)
     if ((x<0)||(y<0)||(x>size_board)||(y>size_board))
     {
         printf("Deplacement impossible, veuillez reessayer.\n");
-        return 1;                       // retourne vrai si le joueur souhaite se deplacer en dehors du plateau de jeu
+        return 1;                       //retourne vrai si le joueur souhaite se deplacer en dehors du plateau de jeu
     }
     else return 0;                      //sinon retourne 0
 }
@@ -126,9 +127,9 @@ int verif_player_board(int x, int y,t_banquise *board)
      if ((case_board == PLAYER) || (case_board == ROCK))
     {
         printf("Deplacement impossible, veuillez reessayer.\n");
-        return 1;                       // retourne vrai si le joueur souhaite se deplacer dans une case occupee par un autre joueur
+        return 1;                       //retourne vrai si le joueur souhaite se deplacer dans une case occupee par un autre joueur
     }
-    else return 0;                       //sinon retourne 0
+    else return 0;                      //sinon retourne 0
 }
 
 
@@ -140,19 +141,34 @@ int verif_displacement(t_player *player, t_banquise *board)    //verifie si le j
 
     if (verif_exit_board(x,y,size_board))
     {
-        return 1;                       // retourne vrai si le déplacement est impossible
+        return 1;                       //retourne vrai si le déplacement est impossible
     }
     else if(verif_player_board(x,y,board))
         {
-            return 1;                   // retourne vrai si le déplacement est impossible
+            return 1;                   //retourne vrai si le déplacement est impossible
         }
-    else return 0;                      // retourne faux si le déplacement est possible
+    else return 0;                      //retourne faux si le déplacement est possible
+}
+
+void verif_player_death(t_player *player, t_banquise *board)
+{
+    int x = (*player).position.x,
+        y = (*player).position.y;
+    int case_board = (*board).matrice[y][x];
+
+    if (case_board == WATER)            //retourne vrai si le joueur souhaite se deplacer dans l'eau
+    {
+        (*player).death = 1;            //declare le joueur comme mort
+        printf("Tu es mort gros con ;p.");
+    }
 }
 
 void displacement_player(t_player *player, t_banquise *board)
 {
     char touch;
-
+    int death = (*player).death;
+    if (death != 1)
+    {
     do{
         touch = getchar();
         printf("Votre deplacement (z,q,s ou d): ");
@@ -169,16 +185,14 @@ void displacement_player(t_player *player, t_banquise *board)
         break;
         case 'D':
         touch='d';
-        break;
-    default:
-        ;                       //convertit les majuscules en minuscules
+        break;                    //convertit les majuscules en minuscules
     }
     }while ((touch!='z')&&(touch!='s')&&(touch!='q')&&(touch!='d'));    //verifie si c'est bien une touche de deplacement
 
     int pos_x = (*player).position.x,
         pos_y = (*player).position.y;
 
-    primary_displacement_player(player,touch);          //affecte au joueur la position souhaité
+    primary_displacement_player(player,touch);        //affecte (possiblement de maniere temporaire) au joueur la position souhaité
 
     if(verif_displacement(player,board))              //si condition vraie, le joueur ne peut pas faire le deplacement
     {
@@ -186,11 +200,13 @@ void displacement_player(t_player *player, t_banquise *board)
         (*player).position.y = pos_y;                       //reaffecte l'ancienne position en y du joueur
         displacement_player(player,board);                  //relance la demande de deplacment pour ce joueur
     }
-    else                                                //sinon, le joueur peut effectuer le deplacement
+    else                                              //sinon, le joueur peut effectuer le deplacement
     {
-        int new_pos_x = (*player).position.x,               //
-            new_pos_y = (*player).position.y;
-        (*board).matrice[pos_y][pos_x] = PACKED_ICE;                   //libere l'ancienne case du plateau de jeu occupé par le joueur
-        (*board).matrice[new_pos_y][new_pos_x] = PLAYER;           //indique que la nouvelle case du plateau de jeu occupé par le joueur est occupé par un joueur
+        int new_pos_x = (*player).position.x,               //recupere la nouvelle position en x du joueur
+            new_pos_y = (*player).position.y;               //recupere la nouvelle position en y du joueur
+        (*board).matrice[pos_y][pos_x] = PACKED_ICE;        //libere l'ancienne case du plateau de jeu occupé par le joueur
+        (*board).matrice[new_pos_y][new_pos_x] = PLAYER;    //indique que la nouvelle case du plateau de jeu occupé par le joueur est occupé par un joueur
+        verif_player_death(player,board);                   //declare le joueur mort s'il l'est
+    }
     }
 }

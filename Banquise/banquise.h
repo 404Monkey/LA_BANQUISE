@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MATRIX_SIZE 8
+#define MATRIX_SIZE 20
 #define WATER_LIMIT 2
 
 

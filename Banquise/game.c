@@ -24,9 +24,32 @@ t_game* InitGame()
     (*game).banquise = banquise;
     (*game).tab_player = tab_joueurs;
     (*game).nb_player = nb_joueurs;
-    (*game).nb_lap = 0;
+    (*game).nb_lap = 1;
 
     ImplementeJoueurMatrice((*game).banquise, (*game).tab_player, (*game).nb_player);
 
     return game;
+}
+
+void PlayLap(t_game* game)
+{
+    int i;
+    for(i=0; i<(*game).nb_player; i++)
+    {
+        printf("%s, à toi de jouer !\n", (*game).tab_player[i].name);
+        displacement_player(&(*game).tab_player[i], (*game).banquise);
+        system("cls");
+        AfficheWithPlayers((*game).banquise, (*game).tab_player, (*game).nb_player);
+        printf("joueur %d death : %d\n", i, (*game).tab_player[i].death);
+    }
+    (*game).nb_lap += 1;
+}
+
+void PlayGame(t_game* game)
+{
+    while(1)
+    {
+        PlayLap(game);
+        printf("AU tour suivant ! Tour n°%d\n", (*game).nb_lap);
+    }
 }

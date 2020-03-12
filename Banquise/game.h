@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#include "players.h"
+#include "affichage.h"
 
 typedef struct
 {
@@ -13,3 +13,5 @@ typedef struct
 } t_game;
 
 t_game* InitGame(void);
+void PlayLap(t_game* game);
+void PlayGame(t_game* game);
