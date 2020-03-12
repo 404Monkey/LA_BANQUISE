@@ -2,39 +2,26 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#include "affichage.h"
+#include "game.h"
 
 int main()
 {
-    // ***** BANQUISE ***** //
-    t_banquise* my_banquise = malloc(sizeof(t_banquise)); //creation d'une banquise
+    t_game* my_game = malloc(sizeof(t_game));
+    my_game = InitGame();
 
-    my_banquise = initBanquise(); //initialisation d'une banquise en BANQUISE
+    AfficheWithPlayers((*my_game).banquise, (*my_game).tab_player, (*my_game).nb_player);
 
-    afficheMatrice(my_banquise);
+    displacement_player(&(*my_game).tab_player[3], (*my_game).banquise);
 
-    // ***** PLAYERS ***** //
-    int nb_joueurs;
-
-    do{
-    printf("Combien de joueurs voulez-vous pour cette partie? (entre 1 et 4) : ");
-    scanf("%d", &nb_joueurs);
-    } while ((nb_joueurs<1)||(nb_joueurs>4));
-
-    t_player *tab_joueurs = malloc(sizeof(t_player)*nb_joueurs); // MEEEEHHHHH cest legit ??
-
-    CreerTabJoueurs_aux(tab_joueurs, nb_joueurs);
-
-    deplacement_player(&tab_joueurs[3]);
-
-    for (int i=0; i<nb_joueurs; i++)
+    int nb_joueurs = (*my_game).nb_player;
+    /*for (int i=0; i<nb_joueurs; i++)
     {
-        printf("couleur %d : %d\n", tab_joueurs[i].id, tab_joueurs[i].color);
-        printf("posx %d : %d\n", tab_joueurs[i].id, tab_joueurs[i].position.x);
-        printf("posy %d : %d\n", tab_joueurs[i].id, tab_joueurs[i].position.y);
-    }
+        printf("couleur %d : %d\n", (*my_game).tab_player[i].id, (*my_game).tab_player[i].color);
+        printf("posx %d : %d\n", (*my_game).tab_player[i].id, (*my_game).tab_player[i].position.x);
+        printf("posy %d : %d\n", (*my_game).tab_player[i].id, (*my_game).tab_player[i].position.y);
+    }*/
 
-    AfficheWithPlayers(my_banquise, tab_joueurs, nb_joueurs);
+    AfficheWithPlayers((*my_game).banquise, (*my_game).tab_player, (*my_game).nb_player);
 
     return 0;
 }

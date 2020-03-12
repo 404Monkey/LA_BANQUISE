@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum {EAU, BANQUISE} t_sol;
+#define MATRIX_SIZE 8
+#define WATER_LIMIT 2
+
+
+typedef enum {WATER, PACKED_ICE, PLAYER, ICE, ROCK} t_sol;
 
 typedef struct
 {

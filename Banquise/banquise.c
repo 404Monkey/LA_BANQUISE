@@ -3,6 +3,7 @@
 
 #include "banquise.h"
 
+
 void creerMatriceBanquise(int taille, t_sol** matrice)
 {
     int i, j;
@@ -10,7 +11,11 @@ void creerMatriceBanquise(int taille, t_sol** matrice)
     {
         for(j=0; j<taille; j++)
         {
-            matrice[i][j] = BANQUISE; // affecte la valeur BANQUISE à toute les cases de la matrice
+            if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)
+            {
+                matrice[i][j] = WATER;
+            }
+            else matrice[i][j] = PACKED_ICE;
         }
     }
 }
@@ -20,26 +25,27 @@ t_banquise* initBanquise()
 {
     printf("Bienvenue dans le jeu de la banquise !\n");
 
+    /* TAILLE MATRICE
     // TAILLE : demande à l'urilisateur de saisir la taille du plateau
     printf("Saisir la taille du plateau : ");
     int taille;
-    scanf("%d", &taille);
+    scanf("%d", &taille); */
 
     //MATRICE :
     t_sol** matrice_banquise; // matrice de la banquise
     int i;
 
-    matrice_banquise = malloc(sizeof(t_sol *) * taille);
-    for(i=0; i<taille; i++)
-        matrice_banquise[i]= malloc(taille * sizeof(t_sol));
+    matrice_banquise = malloc(sizeof(t_sol *) * MATRIX_SIZE);
+    for(i=0; i<MATRIX_SIZE; i++)
+        matrice_banquise[i]= malloc(MATRIX_SIZE * sizeof(t_sol));
 
-    creerMatriceBanquise(taille, matrice_banquise); //matrice de taille*taille BANQUISE
+    creerMatriceBanquise(MATRIX_SIZE, matrice_banquise); //matrice de taille*taille BANQUISE
 
     //STRUCT t_banquise
 
     t_banquise* banquise = malloc(sizeof(t_banquise)); // creation et affectation pour la banquise
     (*banquise).matrice = matrice_banquise;
-    (*banquise).taille = taille;
+    (*banquise).taille = MATRIX_SIZE;
 
     return banquise;
 }

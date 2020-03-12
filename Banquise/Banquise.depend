@@ -25,38 +25,50 @@
 	<stdlib.h>
 	"banquise.h"
 
-1583592097 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\banquise.c
+1584031435 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\banquise.c
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
 
-1582911463 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\banquise.h
+1584033645 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\banquise.h
 	<stdio.h>
 	<stdlib.h>
 
-1583774309 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\players.c
+1584033620 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\players.c
 	<stdio.h>
 	<stdlib.h>
 	"players.h"
 
-1583771200 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\players.h
+1584033326 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\players.h
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
 
-1583773517 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\main.c
+1584033526 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	"game.h"
+
+1584032042 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 	"affichage.h"
 
-1583770974 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.c
+1584033379 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
-	"affichage.h"
+	"players.h"
 
-1583771570 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.h
+1584029206 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\game.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	"game.h"
+
+1584033353 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\game.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
