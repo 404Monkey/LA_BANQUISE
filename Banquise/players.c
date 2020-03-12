@@ -49,41 +49,55 @@ int CreerTabJoueurs(t_player* tab_joueurs){
 
 void deplacement_y(t_player *player, int displacement)
 {
-    int y_new =(player->position.y)+displacement; //la nouvelle position du joueur en Y
-    player->position.y = y_new;                       //affecte cette nouvelle position au joueur => le joueur monte ou descend
+    int y_new =((*player).position.y)+displacement;     //la nouvelle position du joueur en Y
+    (*player).position.y = y_new;                       //affecte cette nouvelle position au joueur => le joueur monte ou descend
+    (*player).vect.dx = 0;                              //change la composante du vecteur deplacement en x
+    (*player).vect.dy = displacement;                   //change la composante du vecteur deplacement en y
 }
 
 void deplacement_x(t_player *player, int displacement)
 {
-    int x_new=((*player).position.x)+displacement;     //la nouvelle position du joueur en X
+    int x_new=((*player).position.x)+displacement;      //la nouvelle position du joueur en X
     (*player).position.x = x_new;                       //affecte cette nouvelle position au joueur => le joueur se déplace a gauche ou a droite
+    (*player).vect.dx = displacement;                   //change la composante du vecteur deplacement en x
+    (*player).vect.dy = 0;                              //change la composante du vecteur deplacement en y
 }
 
 /*********** FONCTION PRINCIPALE DE DEPLACEMENT *************/
 
-void deplacement_player (t_player* player)
+void deplacement_player(t_player* player)
 {
-    char touch = getchar();
-    printf("test1");
+    char touch;
 
-    while ( (touch!='z') && (touch!='s') && (touch!='q') && (touch!='d')){
-    printf("Votre deplacement (Z,S,Q ou D): ");
-    printf("test2");
-    scanf("%c", &touch);
-    printf("test3");
+   do{
+        touch = getchar();
+        printf("Votre deplacement (z,q,s ou d): ");
+        scanf("%c", &touch);
+        switch (touch){
+        case 'Z':
+        touch='z';
+        break;
+        case 'S':
+        touch='s';
+        break;
+        case 'Q':
+        touch='q';
+        break;
+        case 'D':
+        touch='d';
+        break;
+    default:
+        ;
     }
-
-printf("test4");
+    }while ((touch!='z')&&(touch!='s')&&(touch!='q')&&(touch!='d'));
 
     switch (touch){
         case 'z':
         deplacement_y(player,-1);
         break;
-        switch (touch)
         case 's':
         deplacement_y(player,1);
         break;
-        switch (touch)
         case 'q':
         deplacement_x(player,-1);
         break;
@@ -93,4 +107,13 @@ printf("test4");
     default:
     printf("ERROR with deplacement_player(t_player player, t_board game_board) \n");
     }
+}
+
+int verif_matrice(pers){
+
+}
+
+
+void verif_deplacement(){
+//if....
 }
