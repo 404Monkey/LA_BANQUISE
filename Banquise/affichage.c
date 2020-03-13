@@ -44,8 +44,8 @@ void ChangeCouleurJoueurMatrice(t_player* tab_players, int nb_player, int banqx,
 
 void AfficheWithPlayers(t_banquise* banquise, t_player* tab_player, int nb_players)
 {
-    t_sol** matrice = (*banquise).matrice; //récupère la matrice de la banquise
-    int N = (*banquise).taille;
+    t_ground** matrice = (*banquise).matrix; //récupère la matrice de la banquise
+    int N = (*banquise).banquise_size;
 
     printf("la banquise a boug%c !\n", 130);
 

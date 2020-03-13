@@ -4,18 +4,18 @@
 #include "banquise.h"
 
 
-void creerMatriceBanquise(int taille, t_sol** matrice)
+void creerMatriceBanquise(int b_size, t_ground** matrix)
 {
     int i, j;
-    for(i=0; i<taille; i++)
+    for(i=0; i<b_size; i++)
     {
-        for(j=0; j<taille; j++)
+        for(j=0; j<b_size; j++)
         {
             if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)
             {
-                matrice[i][j] = WATER;
+                matrix[i][j] = WATER;
             }
-            else matrice[i][j] = PACKED_ICE;
+            else matrix[i][j] = PACKED_ICE;
         }
     }
 }
@@ -32,20 +32,20 @@ t_banquise* initBanquise()
     scanf("%d", &taille); */
 
     //MATRICE :
-    t_sol** matrice_banquise; // matrice de la banquise
+    t_ground** banquise_matrix; // matrice de la banquise
     int i;
 
-    matrice_banquise = malloc(sizeof(t_sol *) * MATRIX_SIZE);
+    banquise_matrix = malloc(sizeof(t_ground *) * MATRIX_SIZE);
     for(i=0; i<MATRIX_SIZE; i++)
-        matrice_banquise[i]= malloc(MATRIX_SIZE * sizeof(t_sol));
+        banquise_matrix[i]= malloc(MATRIX_SIZE * sizeof(t_ground));
 
-    creerMatriceBanquise(MATRIX_SIZE, matrice_banquise); //matrice de taille*taille BANQUISE
+    creerMatriceBanquise(MATRIX_SIZE, banquise_matrix); //matrice de taille*taille BANQUISE
 
     //STRUCT t_banquise
 
     t_banquise* banquise = malloc(sizeof(t_banquise)); // creation et affectation pour la banquise
-    (*banquise).matrice = matrice_banquise;
-    (*banquise).taille = MATRIX_SIZE;
+    (*banquise).matrix = banquise_matrix;
+    (*banquise).banquise_size = MATRIX_SIZE;
 
     return banquise;
 }
@@ -53,8 +53,8 @@ t_banquise* initBanquise()
 
 void afficheMatrice(t_banquise* banquise)
 {
-    t_sol** matrice = (*banquise).matrice; //récupère la matrice de la banquise
-    int N = (*banquise).taille;
+    t_ground** matrix = (*banquise).matrix; //récupère la matrice de la banquise
+    int N = (*banquise).banquise_size;
 
     printf("la banquise a boug%c !\n", 130);
 
@@ -65,7 +65,7 @@ void afficheMatrice(t_banquise* banquise)
         {
             //présentation "esthetique" de chaque valeur de la matrice
             if(j%N == 0) printf("\n|");
-            printf("% d", matrice[i][j]);
+            printf("% d", matrix[i][j]);
             if(j%N == N-1) printf(" |");
         }
     }

@@ -36,11 +36,11 @@ void PlayLap(t_game* game)
     int i;
     for(i=0; i<(*game).nb_player; i++)
     {
-        printf("%s, à toi de jouer !\n", (*game).tab_player[i].name);
-        displacement_player(&(*game).tab_player[i], (*game).banquise);
-        system("cls");
-        AfficheWithPlayers((*game).banquise, (*game).tab_player, (*game).nb_player);
-        printf("joueur %d death : %d\n", i, (*game).tab_player[i].death);
+        printf("Tour n°%d\n", (*game).nb_lap);                                      //Affiche du numéro de tour
+        printf("%s, à toi de jouer !\n", (*game).tab_player[i].name);               //Affiche quel joueur doit jouer
+        displacement_player(&(*game).tab_player[i], (*game).banquise);              //Demande aux joueur de se deplacer
+        system("cls");                                                              //clear la console
+        AfficheWithPlayers((*game).banquise, (*game).tab_player, (*game).nb_player);//Affiche la matrices
     }
     (*game).nb_lap += 1;
 }
@@ -50,6 +50,5 @@ void PlayGame(t_game* game)
     while(1)
     {
         PlayLap(game);
-        printf("AU tour suivant ! Tour n°%d\n", (*game).nb_lap);
     }
 }
