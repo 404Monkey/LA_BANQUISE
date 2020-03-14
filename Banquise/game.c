@@ -42,7 +42,12 @@ void PlayLap(t_game* game)
 
         printf("Tour n°%d\n", (*game).nb_lap);                                      //Affiche du numéro de tour
         printf("%s, à toi de jouer !\n", (*game).arr_player[i].name);               //Affiche quel joueur doit jouer
+
         displacement_player(&(*game).arr_player[i], (*game).banquise);              //Demande aux joueur de se deplacer
+        RespawnPlayer(&(*game).arr_player[i], (*game).banquise);
+
+
+        /** affichage test **/
         printf("P%d_win : %d\n", i, (*game).arr_player[i].win);
         printf("P%d_death : %d\n", i, (*game).arr_player[i].death);
     }

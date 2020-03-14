@@ -157,3 +157,18 @@ void displacement_player(t_player *player, t_banquise *board)
 
     }
 }
+
+void RespawnPlayer(t_player* player, t_banquise* banquise)
+{
+    if((*player).death == 1)
+    {
+            printf("%s t'es mort\n", (*player).name);
+            (*player).position.x = (*player).start_point.x;
+            (*player).position.y = (*player).start_point.y;
+            (*player).death =0;
+
+            ImplementPlayerMatrix_aux(banquise, player);
+
+            (*player).score -= 100;
+    }
+}

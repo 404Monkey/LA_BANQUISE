@@ -23,6 +23,7 @@ typedef struct
     t_color color;
     int id;
     t_pos position;
+    t_pos start_point;
     t_vector vect;    // pour transmettre le vecteur (sens de déplacement) au glacon
     int score;
     int death;
@@ -31,6 +32,7 @@ typedef struct
 
 t_player* CreatePlayer(t_color color, int id); // Creer un joueur
 void CreateArrPlayer(t_player* arr_player, int nb_player); //Creer tableau de joueurs
+void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player);
 void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player);
 
 
