@@ -4,14 +4,13 @@
 
 #include "affichage.h"
 
-
 void textcolor(int color)
 {
 HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);
    SetConsoleTextAttribute(h,color);
 }
 
-void CouleurTexte(int color)
+void ChangeTextColor(int color)
 {
     switch(color)
     {
@@ -24,41 +23,41 @@ void CouleurTexte(int color)
     }
 }
 
-int CheckPosition(int indbanqx, int indbanqy, int posplayerx, int posplayery)
+int CheckPosition(int indbanqx, int indbanqy, t_player* player)
 {
-    return ((indbanqx == posplayerx )&&(indbanqy == posplayery));
+    return (((*player).death == 0) && (indbanqx == (*player).position.x)&&(indbanqy == (*player).position.y));
 }
 
-void ChangeCouleurJoueurMatrice(t_player* tab_players, int nb_player, int banqx, int banqy)
+void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int banqy)
 {
     int i;
     for(i=0; i<nb_player; i++)
     {
-        if(CheckPosition(banqx, banqy, tab_players[i].position.x, tab_players[i].position.y)==1)
+        if(CheckPosition(banqx, banqy, &arr_player[i])==1)
         {
-            CouleurTexte(tab_players[i].color);
+            ChangeTextColor(arr_player[i].color);
             break;
-        }else CouleurTexte(COLOR_DEFAULT);
+        }else ChangeTextColor(COLOR_DEFAULT);
     }
 }
 
-void AfficheWithPlayers(t_banquise* banquise, t_player* tab_player, int nb_players)
+void DisplayWithPlayers(t_banquise* banquise, t_player* arr_player, int nb_players)
 {
-    t_ground** matrice = (*banquise).matrix; //récupère la matrice de la banquise
-    int N = (*banquise).banquise_size;
+    t_ground** matrix = (*banquise).matrix; //récupère la matrice de la banquise
+    int b_size = (*banquise).banquise_size;
 
     printf("la banquise a boug%c !\n", 130);
 
     int i, j;
-    for(i=0; i<N; i++)
+    for(i=0; i<b_size; i++)
     {
-        for(j=0; j<N; j++)
+        for(j=0; j<b_size; j++)
         {
             //présentation "esthetique" de chaque valeur de la matrice
-            if(j%N == 0) printf("\n|");
-            ChangeCouleurJoueurMatrice(tab_player, nb_players, j, i);
-            printf("% d", matrice[i][j]);
-            if(j%N == N-1) printf(" |");
+            if(j%b_size == 0) printf("\n|");
+            ChangeColorPlayerMatrix(arr_player, nb_players, j, i);
+            printf("% d", matrix[i][j]);
+            if(j%b_size == b_size-1) printf(" |");
         }
     }
     printf("\n\n");

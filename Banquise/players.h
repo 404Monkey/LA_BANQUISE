@@ -26,13 +26,13 @@ typedef struct
     t_vector vect;    // pour transmettre le vecteur (sens de déplacement) au glacon
     int score;
     int death;
+    int win;
 } t_player;
 
-t_player* CreerJoueur(t_color color, int id); // Creer un joueur
-void CreerTabJoueurs_aux(t_player* tab_joueurs, int nb_joueurs); //Creer tableau de joueurs
-int CreerTabJoueurs(t_player* tab_joueurs); // créer tableau de joueurs et retourne la taille du tableau
-void ImplementeJoueurMatrice(t_banquise* banquise, t_player* tab_player, int nb_player);
-void displacement_player(t_player *player, t_banquise *board);
+t_player* CreatePlayer(t_color color, int id); // Creer un joueur
+void CreateArrPlayer(t_player* arr_player, int nb_player); //Creer tableau de joueurs
+void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player);
+
 
 
 

@@ -9,7 +9,7 @@ int main()
     t_game* my_game = malloc(sizeof(t_game));
     my_game = InitGame();
 
-    AfficheWithPlayers((*my_game).banquise, (*my_game).tab_player, (*my_game).nb_player);
+    DisplayWithPlayers((*my_game).banquise, (*my_game).arr_player, (*my_game).nb_player);
 
     /*int nb_joueurs = (*my_game).nb_player;
     for (int i=0; i<nb_joueurs; i++)

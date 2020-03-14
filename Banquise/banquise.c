@@ -1,17 +1,24 @@
+/************************************************************************
+**************************   Banquise.c   *******************************
+************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "banquise.h"
 
+/***************************************/
+/********* BANQUISE FONCTIONS **********/
+/***************************************/
 
-void creerMatriceBanquise(int b_size, t_ground** matrix)
+void InitMatrixBanquise(int b_size, t_ground** matrix)
 {
     int i, j;
     for(i=0; i<b_size; i++)
     {
         for(j=0; j<b_size; j++)
         {
-            if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)
+            if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)  // rempli les contours de la matrice d'eau
             {
                 matrix[i][j] = WATER;
             }
@@ -21,29 +28,35 @@ void creerMatriceBanquise(int b_size, t_ground** matrix)
 }
 
 
-t_banquise* initBanquise()
+void ImplementFinalPointMatrix(t_ground** matrix, int nb_size)
+{
+    int N = nb_size/2;
+    matrix[N][N] = FINAL_POINT;
+}
+
+
+t_banquise* InitBanquise()
 {
     printf("Bienvenue dans le jeu de la banquise !\n");
 
-    /* TAILLE MATRICE
-    // TAILLE : demande à l'urilisateur de saisir la taille du plateau
+    /* TAILLE MATRICE                                               // Demander a l'utilisateur la taille de la matrice
     printf("Saisir la taille du plateau : ");
     int taille;
     scanf("%d", &taille); */
 
     //MATRICE :
-    t_ground** banquise_matrix; // matrice de la banquise
+    t_ground** banquise_matrix;                                     // matrice de la banquise
+
     int i;
-
-    banquise_matrix = malloc(sizeof(t_ground *) * MATRIX_SIZE);
+    banquise_matrix = malloc(sizeof(t_ground *) * MATRIX_SIZE);     // alloue MATRIX_SIZE fois un tableau de t_ground
     for(i=0; i<MATRIX_SIZE; i++)
-        banquise_matrix[i]= malloc(MATRIX_SIZE * sizeof(t_ground));
+        banquise_matrix[i]= malloc(MATRIX_SIZE * sizeof(t_ground)); // alloue MATRIX_SIZE fois un t_ground dans chaque tableau alloué precedemment
 
-    creerMatriceBanquise(MATRIX_SIZE, banquise_matrix); //matrice de taille*taille BANQUISE
+    InitMatrixBanquise(MATRIX_SIZE, banquise_matrix);               // initialise la matrice
+    ImplementFinalPointMatrix(banquise_matrix, MATRIX_SIZE);        // implemente le point d'arrive
 
     //STRUCT t_banquise
-
-    t_banquise* banquise = malloc(sizeof(t_banquise)); // creation et affectation pour la banquise
+    t_banquise* banquise = malloc(sizeof(t_banquise));              // creation et allocation pour la banquise
     (*banquise).matrix = banquise_matrix;
     (*banquise).banquise_size = MATRIX_SIZE;
 
@@ -51,22 +64,21 @@ t_banquise* initBanquise()
 }
 
 
-void afficheMatrice(t_banquise* banquise)
+void DisplayMatrix(t_banquise* banquise)
 {
-    t_ground** matrix = (*banquise).matrix; //récupère la matrice de la banquise
-    int N = (*banquise).banquise_size;
+    t_ground** matrix = (*banquise).matrix;
+    int b_size = (*banquise).banquise_size;
 
     printf("la banquise a boug%c !\n", 130);
 
     int i, j;
-    for(i=0; i<N; i++)
+    for(i=0; i<b_size; i++)
     {
-        for(j=0; j<N; j++)
+        for(j=0; j<b_size; j++)
         {
-            //présentation "esthetique" de chaque valeur de la matrice
-            if(j%N == 0) printf("\n|");
+            if(j%b_size == 0) printf("\n|");
             printf("% d", matrix[i][j]);
-            if(j%N == N-1) printf(" |");
+            if(j%b_size == b_size-1) printf(" |");
         }
     }
     printf("\n");

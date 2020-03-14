@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#include "players.h"
+#include "movement.h"
 
 void textcolor(int color);
-void CouleurTexte(int color);
-int CheckPosition(int indbanqx, int indbanqy, int posplayerx, int posplayery);
-void ChangeCouleurJoueurMatrice(t_player* tab_players, int nb_player, int banqx, int banqy);
-void AfficheWithPlayers(t_banquise* banquise, t_player* tab_player, int nb_players);
+void ChangeTextColor(int color);
+int CheckPosition(int indbanqx, int indbanqy, t_player* player);
+void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int banqy);
+void DisplayWithPlayers(t_banquise* banquise, t_player* arr_player, int nb_players);

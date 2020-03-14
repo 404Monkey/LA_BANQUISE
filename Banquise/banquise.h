@@ -1,3 +1,7 @@
+/************************************************************************
+**************************   Banquise.h   *******************************
+************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -5,7 +9,7 @@
 #define WATER_LIMIT 2
 
 
-typedef enum {WATER, PACKED_ICE, PLAYER, ICE, ROCK} t_ground;
+typedef enum {WATER, PACKED_ICE, PLAYER, ICE, ROCK, FINAL_POINT} t_ground;
 
 typedef struct
 {
@@ -13,7 +17,10 @@ typedef struct
     t_ground** matrix;
 } t_banquise;
 
+/******* Prototypes *******/
 
-void creerMatriceBanquise(int b_size, t_ground** matrix);  //retourne une matrice de BANQUISE
-t_banquise* initBanquise(void);                            // initialise une banquise en demandant la taille à l'utilisateur et en utilisant la fonction ci-dessus
-void afficheMatrice(t_banquise* banquise);                 // affiche "esthetiquement la matrice d'une bannquise
+void CreateMatrixBanquise(int b_size, t_ground** matrix);       // Initialise une matrice de t_ground
+void ImplementFinalPointMatrix(t_ground** matrix, int nb_size); // Implemente le point d'arrivé au milieu d'une matrice
+t_banquise* InitBanquise(void);                                 // Initialise un pointeur de t_banquise
+void DisplayMatrix(t_banquise* banquise);                       // Affiche la matrice de la banquise sans couleur
+

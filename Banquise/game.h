@@ -7,7 +7,7 @@
 typedef struct
 {
     t_banquise* banquise;
-    t_player* tab_player;
+    t_player* arr_player;
     int nb_player;
     int nb_lap;
 } t_game;
