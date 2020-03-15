@@ -5,16 +5,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MATRIX_SIZE 19
-#define WATER_LIMIT 2
+#define MATRIX_SIZE 19                                          // Taille de la matrice
+#define WATER_LIMIT 2                                           // Ecart ce l'au aux contours de la matrice
 
 
 typedef enum {WATER, PACKED_ICE, PLAYER, ICE, ROCK, FINAL_POINT} t_ground;
 
 typedef struct
 {
-    int banquise_size;
-    t_ground** matrix;
+    int banquise_size;                                          // Taille de la banquise
+    t_ground** matrix;                                          // matrice de la banquise
 } t_banquise;
 
 /******* Prototypes *******/

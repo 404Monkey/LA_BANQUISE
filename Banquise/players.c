@@ -3,14 +3,14 @@
 
 #include "players.h"
 
-#define PLAYER_GAP 3
+#define PLAYER_GAP 3                                            // Ecart entre les bords de la matrice et les spawns des joueurs
 
 t_player* CreatePlayer(t_color color, int id)
 {
     t_player* player = malloc(sizeof(t_player));
 
     char* name = malloc(sizeof(char));
-    printf("Joueur %d, Veuillez rentrer votre nom : ", id+1);
+    printf("Joueur %d, Veuillez rentrer votre nom : ", id);
     scanf("%s", name);
     (*player).name = name;
 
@@ -29,8 +29,8 @@ void CreateArrPlayer(t_player* arr_player, int nb_player)
 {
     for (int i=0; i<nb_player; i++)
     {
-        arr_player[i] = *CreatePlayer(i,i);
-        switch(i)
+        arr_player[i] = *CreatePlayer(i,i+1);
+        switch(i)                                                                        // Positionne aux coins de la matrice en fonction de l'écart
         {
             case 0 : arr_player[i].position.x = arr_player[i].start_point.x =PLAYER_GAP;
                      arr_player[i].position.y = arr_player[i].start_point.y = PLAYER_GAP; break;
@@ -49,7 +49,7 @@ void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player)
     int posx = (*player).position.x;
     int posy = (*player).position.y;
 
-    (*banquise).matrix[posy][posx] = PLAYER;
+    (*banquise).matrix[posy][posx] = PLAYER;                    // Implemente PLAYER à la position du joueur
 }
 
 void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player)
@@ -57,6 +57,6 @@ void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_pl
     int i;
     for(i=0; i<nb_player; i++)
     {
-        ImplementPlayerMatrix_aux(banquise, &arr_player[i]);
+        ImplementPlayerMatrix_aux(banquise, &arr_player[i]);    // Implemente PLAYER pour tous les joueurs
     }
 }

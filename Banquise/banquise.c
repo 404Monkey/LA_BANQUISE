@@ -30,7 +30,7 @@ void InitMatrixBanquise(int b_size, t_ground** matrix)
 
 void ImplementFinalPointMatrix(t_ground** matrix, int nb_size)
 {
-    int N = nb_size/2;
+    int N = nb_size/2;                                              // Milieu de la matrice
     matrix[N][N] = FINAL_POINT;
 }
 
@@ -66,8 +66,8 @@ t_banquise* InitBanquise()
 
 void DisplayMatrix(t_banquise* banquise)
 {
-    t_ground** matrix = (*banquise).matrix;
-    int b_size = (*banquise).banquise_size;
+    t_ground** matrix = (*banquise).matrix;                         // récupère la matrice
+    int b_size = (*banquise).banquise_size;                         // récupère la taille de la matrice
 
     printf("la banquise a boug%c !\n", 130);
 
@@ -77,7 +77,7 @@ void DisplayMatrix(t_banquise* banquise)
         for(j=0; j<b_size; j++)
         {
             if(j%b_size == 0) printf("\n|");
-            printf("% d", matrix[i][j]);
+            printf("% d", matrix[i][j]);                            // affiche le t_ground des coordonnées correspondant
             if(j%b_size == b_size-1) printf(" |");
         }
     }

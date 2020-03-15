@@ -88,23 +88,11 @@ int verif_player_death(t_player *player, int x, int y, t_banquise *board)
     if (case_board == WATER)            //retourne vrai si le joueur souhaite se deplacer dans l'eau
     {
         (*player).death = 1;            //declare le joueur comme mort
-        printf("Tu es mort gros con ;p.");
         return 1;
     }
     else return 0;
 }
 
-void verif_player_won(t_player *player, int x, int y, t_banquise *board)
-{
-    int case_board = (*board).matrix[y][x];
-    if (case_board == FINAL_POINT)            //retourne vrai si le joueur souhaite se deplacer dans l'eau
-    {
-        (*player).win = 1;                    //declare le joueur comme mort
-        printf("Tu as gagné! Bravo BG ;D.");
-        //return 1;
-    }
-    //else return 0;
-}
 
 void displacement_player(t_player *player, t_banquise *board)
 {
@@ -152,17 +140,29 @@ void displacement_player(t_player *player, t_banquise *board)
             {
                 (*board).matrix[new_pos_y][new_pos_x] = PLAYER;//indique que la nouvelle case du plateau de jeu occupé par le joueur est occupé par un joueur
             }
-            verif_player_won(player,new_pos_x,new_pos_y,board);
         }
 
     }
+}
+
+int verif_player_won(t_player *player, t_banquise *board)
+{
+    int x = (*player).position.x,
+        y = (*player).position.y;
+    int case_board = (*board).matrix[y][x];
+    if (case_board == FINAL_POINT)            //retourne vrai si le joueur souhaite se deplacer dans l'eau
+    {
+        (*player).win = 1;                    //declare le joueur comme mort
+        return 1;
+    }
+    else return 0;
 }
 
 void RespawnPlayer(t_player* player, t_banquise* banquise)
 {
     if((*player).death == 1)
     {
-            printf("%s t'es mort\n", (*player).name);
+            printf("****** %s t'es mort ******\n", (*player).name);
             (*player).position.x = (*player).start_point.x;
             (*player).position.y = (*player).start_point.y;
             (*player).death =0;

@@ -12,6 +12,6 @@ typedef struct
     int nb_lap;
 } t_game;
 
-t_game* InitGame(void);
-void PlayLap(t_game* game);
-void PlayGame(t_game* game);
+t_game* InitGame(void);         // Initialise un jeu
+void PlayLap(t_game* game);     // Joue un tour de jeu
+void PlayGame(t_game* game);    // Lance une partie
