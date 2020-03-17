@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#include "ice.h"
+#include "movement.h"
 
 void textcolor(int color);                                                                  // Fonction trouvé sur Internet, Permet de changer la couleur d'écriture
 void ChangeTextColor(t_color color);                                                        // Change la couleur en fonction d'un t_color

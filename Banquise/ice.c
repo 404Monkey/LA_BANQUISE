@@ -39,15 +39,26 @@ t_ice* InitIce(t_player* player)
     (*ice).position.y = posy;
     (*ice).vect.dx = playerdx;
     (*ice).vect.dy = playerdy;
+    (*ice).player_source = player;
 
     return ice;
 }
 
-void MoveIce(t_ice* ice)
+void MoveIce(t_ice* ice, t_banquise* banquise, t_player* player)
 {
+    int b_size = (*banquise).banquise_size;
+    t_ground** matrix = (*banquise).matrix;
+
+    int ice_posx = (*player).position.x;
+    int ice_posy = (*player).position.y;
+
     while((*ice).is_moving == 1)
     {
-        (*ice).position.x += (*ice).vect.dx;
-        (*ice).position.y += (*ice).vect.dy;
+        if(matrix[ice_posy][ice_posx] == PACKED_ICE)
+        {
+            (*ice).position.x += (*ice).vect.dx;
+            (*ice).position.y += (*ice).vect.dy;
+            matrix[(*ice).position.y][(*ice).position.x] = ICE;
+        }
     }
 }
