@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <time.h>
+
 
 #include "game.h"
 
 int main()
 {
+    srand(time(NULL));
+
     t_game* my_game = malloc(sizeof(t_game));
     my_game = InitGame();
-
-    DisplayWithPlayers((*my_game).banquise, (*my_game).arr_player, (*my_game).nb_player);
 
     /*int nb_joueurs = (*my_game).nb_player;
     for (int i=0; i<nb_joueurs; i++)

@@ -18,6 +18,10 @@ void ChangeTextColor(t_color color)
         case GREEN : textcolor(2); break;
         case BLUE : textcolor(1); break;
         case YELLOW : textcolor(6); break;
+        case WATER_COLOR : textcolor(3); break;
+        case ICE_COLOR : textcolor(9); break;
+        case ROCK_COLOR : textcolor(5); break;
+        case FINAL_POINT_COLOR : textcolor(14); break;
         case COLOR_DEFAULT : textcolor(7); break;
     }
 }
@@ -36,7 +40,19 @@ void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int
         {
             ChangeTextColor(arr_player[i].color);                                                              // Change la couleur en celle du joueur
             break;
-        }else ChangeTextColor(COLOR_DEFAULT);                                                                  // gris clair (couleur de base)
+        }
+    }
+}
+
+void ChangeColorGroundMatrix(t_ground ground)
+{
+    switch(ground)
+    {
+    case WATER : ChangeTextColor(WATER_COLOR); break;
+    case ICE : ChangeTextColor(ICE_COLOR); break;
+    case ROCK : ChangeTextColor(ROCK_COLOR); break;
+    case FINAL_POINT : ChangeTextColor(FINAL_POINT_COLOR); break;
+    default : ChangeTextColor(COLOR_DEFAULT);
     }
 }
 
@@ -54,9 +70,10 @@ void DisplayWithPlayers(t_banquise* banquise, t_player* arr_player, int nb_playe
         {
             if(j%b_size == 0) printf("\n|");
 
+            ChangeColorGroundMatrix(matrix[i][j]);
             ChangeColorPlayerMatrix(arr_player, nb_players, j, i);      // Vérifie s'il y a un joueur sur les indices courants si oui on change la couleur à celle du joueur
             printf("% d", matrix[i][j]);
-
+            textcolor(7);
             if(j%b_size == b_size-1) printf(" |");
         }
     }

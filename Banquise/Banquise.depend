@@ -39,36 +39,37 @@
 	<stdlib.h>
 	"players.h"
 
-1584204551 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\players.h
+1584384969 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\players.h
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
 
-1584193702 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\main.c
+1584448977 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
+	<time.h>
 	"game.h"
 
-1584287714 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.c
+1584385021 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 	"affichage.h"
 
-1584287324 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.h
+1584450447 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\affichage.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
-	"movement.h"
+	"ice.h"
 
-1584285810 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\game.c
+1584448603 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\game.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 	"game.h"
 
-1584288274 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\game.h
+1584448661 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\game.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -82,13 +83,24 @@
 	"affichage.h"
 	"game.h"
 
-1584201019 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\movement.h
+1584450335 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\movement.h
+	<stdio.h>
+	<stdlib.h>
+	"ice.h"
+
+1584448194 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\movement.c
+	<stdio.h>
+	<stdlib.h>
+	"Movement.h"
+
+1584450326 c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\ice.h
 	<stdio.h>
 	<stdlib.h>
 	"players.h"
 
-1584285950 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\movement.c
+1584450256 source:c:\users\cbenj\documents\dossiergit\jeu_de_la_banquise\banquise\ice.c
 	<stdio.h>
 	<stdlib.h>
-	"Movement.h"
+	<time.h>
+	"ice.h"
 

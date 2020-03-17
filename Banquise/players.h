@@ -3,7 +3,7 @@
 
 #include "banquise.h"
 
-typedef enum {RED, GREEN, BLUE, YELLOW, COLOR_DEFAULT} t_color;
+typedef enum {RED, GREEN, BLUE, YELLOW, COLOR_DEFAULT, WATER_COLOR, ICE_COLOR, ROCK_COLOR, FINAL_POINT_COLOR} t_color;
 
 typedef struct
 {

@@ -21,21 +21,23 @@ void displacement_x(t_player *player, int displacement)
     (*player).vect.dy = 0;                              //change la composante du vecteur deplacement en y
 }
 
-/*********** FONCTION PRINCIPALE DE DEPLACEMENT *************/
-
 void primary_displacement_player(t_player* player, char touch) //affecte au joueur la position souhaité
 {
     switch (touch){
         case 'z':
+        case 'Z':
         displacement_y(player,-1);
         break;
         case 's':
+        case 'S':
         displacement_y(player,1);
         break;
         case 'q':
+        case 'Q':
         displacement_x(player,-1);
         break;
         case 'd':
+        case 'D':
         displacement_x(player,1);
         break;
     default:
@@ -93,6 +95,21 @@ int verif_player_death(t_player *player, int x, int y, t_banquise *board)
     else return 0;
 }
 
+void verif_player_won(t_player *player, t_banquise *board)
+{
+    int x = (*player).position.x,
+        y = (*player).position.y;
+    int case_board = (*board).matrix[y][x];
+    if (case_board == FINAL_POINT)            //verifie si le joueur est arrive sur la case final
+    {
+        (*player).win = 1;                    //change son boolen "win" si c'est le cas
+        (*player).score += 1000;              //lui attribue le score qu'il merite si c'est le cas
+    }
+}
+
+
+/*********** FONCTION PRINCIPALE DE DEPLACEMENT *************/
+
 
 void displacement_player(t_player *player, t_banquise *board)
 {
@@ -104,21 +121,7 @@ void displacement_player(t_player *player, t_banquise *board)
             touch = getchar();
             printf("Votre deplacement (z,q,s ou d): ");
             scanf("%c", &touch);
-            switch (touch){
-            case 'Z':
-            touch='z';
-            break;
-            case 'S':
-            touch='s';
-            break;
-            case 'Q':
-            touch='q';
-            break;
-            case 'D':
-            touch='d';
-            break;                    //convertit les majuscules en minuscules
-        }
-        }while ((touch!='z')&&(touch!='s')&&(touch!='q')&&(touch!='d'));    //verifie si c'est bien une touche de deplacement
+        }while ((touch!='z')&&(touch!='s')&&(touch!='q')&&(touch!='d')&&(touch!='Z')&&(touch!='S')&&(touch!='Q')&&(touch!='D'));    //verifie si c'est bien une touche de deplacement
 
         int pos_x = (*player).position.x,
             pos_y = (*player).position.y;
@@ -138,6 +141,7 @@ void displacement_player(t_player *player, t_banquise *board)
             (*board).matrix[pos_y][pos_x] = PACKED_ICE;        //libere l'ancienne case du plateau de jeu occupé par le joueur
             if (verif_player_death(player,new_pos_x,new_pos_y,board) != 1)          //vrai si le joueur est vivant, sinon le declare le comme mort
             {
+                verif_player_won(player,board);
                 (*board).matrix[new_pos_y][new_pos_x] = PLAYER;//indique que la nouvelle case du plateau de jeu occupé par le joueur est occupé par un joueur
             }
         }
@@ -145,24 +149,12 @@ void displacement_player(t_player *player, t_banquise *board)
     }
 }
 
-int verif_player_won(t_player *player, t_banquise *board)
-{
-    int x = (*player).position.x,
-        y = (*player).position.y;
-    int case_board = (*board).matrix[y][x];
-    if (case_board == FINAL_POINT)            //retourne vrai si le joueur souhaite se deplacer dans l'eau
-    {
-        (*player).win = 1;                    //declare le joueur comme mort
-        return 1;
-    }
-    else return 0;
-}
 
 void RespawnPlayer(t_player* player, t_banquise* banquise)
 {
     if((*player).death == 1)
     {
-            printf("****** %s t'es mort ******\n", (*player).name);
+            printf("%s t'es mort\n", (*player).name);
             (*player).position.x = (*player).start_point.x;
             (*player).position.y = (*player).start_point.y;
             (*player).death =0;
