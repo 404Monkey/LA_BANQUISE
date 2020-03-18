@@ -46,6 +46,27 @@ void ImplementSpringMatrix(t_ground** matrix, int nb_size)
     matrix[nb_size - SPRING_GAP - 1][N] = SPRING;                   // Ressort est
 }
 
+int CheckAround(t_ground** matrix, int x, int y)
+{
+    if
+    (
+        x == 0 ||
+        y == 0 ||
+        x == MATRIX_SIZE-1 ||
+        y == MATRIX_SIZE-1 ||
+        matrix[y-1][x-1] == SPRING || matrix[y-1][x-1] == FINAL_POINT ||
+        matrix[y-1][x] == SPRING || matrix[y-1][x] == FINAL_POINT ||
+        matrix[y-1][x+1] == SPRING || matrix[y-1][x+1] == FINAL_POINT ||
+        matrix[y][x-1] == SPRING || matrix[y][x-1] == FINAL_POINT ||
+        matrix[y][x+1] == SPRING || matrix[y][x+1] == FINAL_POINT ||
+        matrix[y+1][x-1] == SPRING || matrix[y+1][x-1] == FINAL_POINT ||
+        matrix[y+1][x] == SPRING || matrix[y+1][x] == FINAL_POINT ||
+        matrix[y+1][x+1] == SPRING || matrix[y+1][x+1] == FINAL_POINT ||
+        matrix[y][x] == FINAL_POINT
+    ) return 1;
+    else return 0;
+}
+
 void ImplementRockMatrix(t_ground** matrix, int nb_size)
 {
     int nb_rocks = MATRIX_SIZE * MATRIX_SIZE / 20;
@@ -56,11 +77,14 @@ void ImplementRockMatrix(t_ground** matrix, int nb_size)
     {
         posx = RandomInt(0, MATRIX_SIZE-1);
         posy = RandomInt(0, MATRIX_SIZE-1);
+        int ok = CheckAround(matrix, posx, posy);
 
-        while(!(matrix[posy][posx] == WATER || matrix[posy][posx] == PACKED_ICE))
+        while(!(matrix[posy][posx] == WATER || matrix[posy][posx] == PACKED_ICE) || ok)
         {
+            printf("test");
             posx = RandomInt(0, MATRIX_SIZE-1);
             posy = RandomInt(0, MATRIX_SIZE-1);
+            ok = CheckAround(matrix, posx, posy);
         }
 
         matrix[posy][posx] = ROCK;
