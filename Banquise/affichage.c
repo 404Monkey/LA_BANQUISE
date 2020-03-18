@@ -14,14 +14,15 @@ void ChangeTextColor(t_color color)
 {
     switch(color)
     {
-        case RED : textcolor(4); break;
-        case GREEN : textcolor(2); break;
-        case BLUE : textcolor(1); break;
-        case YELLOW : textcolor(6); break;
+        case RED : textcolor(12); break;
+        case GREEN : textcolor(10); break;
+        case BLUE : textcolor(11); break;
+        case YELLOW : textcolor(14); break;
         case WATER_COLOR : textcolor(3); break;
         case ICE_COLOR : textcolor(9); break;
-        case ROCK_COLOR : textcolor(5); break;
-        case FINAL_POINT_COLOR : textcolor(14); break;
+        case ROCK_COLOR : textcolor(8); break;
+        case SPRING_COLOR : textcolor(5); break;
+        case FINAL_POINT_COLOR : textcolor(6); break;
         case COLOR_DEFAULT : textcolor(7); break;
     }
 }
@@ -51,6 +52,7 @@ void ChangeColorGroundMatrix(t_ground ground)
     case WATER : ChangeTextColor(WATER_COLOR); break;
     case ICE : ChangeTextColor(ICE_COLOR); break;
     case ROCK : ChangeTextColor(ROCK_COLOR); break;
+    case SPRING : ChangeTextColor(SPRING_COLOR); break;
     case FINAL_POINT : ChangeTextColor(FINAL_POINT_COLOR); break;
     default : ChangeTextColor(COLOR_DEFAULT);
     }

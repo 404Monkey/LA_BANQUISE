@@ -12,9 +12,7 @@ int verif_displacement(t_player *player, t_banquise *board);
 int verif_player_death(t_player *player, int x, int y, t_banquise *board);
 void verif_player_won(t_player *player, t_banquise *board);
 
-void displacement_player(t_player *player, t_banquise *board);
-void RespawnPlayer(t_player* player, t_banquise* banquise);
-
+void displacement_player(t_player *player, t_banquise *board, t_player *arr_player, int nb_player);
 
 
 

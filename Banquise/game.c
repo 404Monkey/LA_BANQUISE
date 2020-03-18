@@ -121,16 +121,13 @@ int verif_victory(t_game *game)
 
 void PlayLap(t_game* game)
 {
-    int i;
-
     if((*game).nb_lap%3 == 1)
     {
         GenerateRandomIce((*game).banquise);
     }
-
-    for(i=0; i<(*game).nb_player; i++)
+    for(int i=0; i<(*game).nb_player; i++)
     {
-        //system("cls");                                                              //clear la console
+        system("cls");                                                              //clear la console
         DisplayWithPlayers((*game).banquise, (*game).arr_player, (*game).nb_player);//Affiche la matrices
 
         printf("Tour n%c%d\n", 248, (*game).nb_lap);                                //Affiche du numéro de tour
@@ -141,9 +138,12 @@ void PlayLap(t_game* game)
         printf("P%d_death : %d\n", i+1, (*game).arr_player[i].death);
         printf("P%d_score : %d\n", i+1, (*game).arr_player[i].score);
 
-        displacement_player(&(*game).arr_player[i], (*game).banquise);              //Demande aux joueur de se deplacer
-        RespawnPlayer(&(*game).arr_player[i], (*game).banquise);
+        displacement_player(&(*game).arr_player[i],(*game).banquise,(*game).arr_player,(*game).nb_player);   //Demande aux joueur de se deplacer
 
+        for(int j=0; j<(*game).nb_player; j++)
+        {
+            RespawnPlayer(&(*game).arr_player[j], (*game).banquise);                // Regarde si un des joueurs est mort et le rescussite
+        }
         if ((*game).arr_player[i].win == 1)
             break;
     }

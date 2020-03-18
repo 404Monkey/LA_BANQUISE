@@ -3,7 +3,7 @@
 
 #include "banquise.h"
 
-typedef enum {RED, GREEN, BLUE, YELLOW, COLOR_DEFAULT, WATER_COLOR, ICE_COLOR, ROCK_COLOR, FINAL_POINT_COLOR} t_color;
+typedef enum {RED, GREEN, BLUE, YELLOW, COLOR_DEFAULT, WATER_COLOR, ICE_COLOR, ROCK_COLOR, SPRING_COLOR, FINAL_POINT_COLOR} t_color;
 
 typedef struct
 {
@@ -34,4 +34,6 @@ t_player* CreatePlayer(t_color color, int id);                                  
 void CreateArrPlayer(t_player* arr_player, int nb_player);                              // Creer tableau de joueurs avec les bonnes positions
 void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player);                 // Implemente PLAYER dans la matrice en fonction de la position d'un joueur
 void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player);  // Implemente PLAYER dans la matrice pour tous les joueurs
+void RespawnPlayer(t_player* player, t_banquise* banquise);
+
 

@@ -60,3 +60,20 @@ void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_pl
         ImplementPlayerMatrix_aux(banquise, &arr_player[i]);    // Implemente PLAYER pour tous les joueurs
     }
 }
+
+//  FONCTION REPLACANT LE JOUEUR A SON POINT DE DEPART S'IL MEURT
+
+void RespawnPlayer(t_player* player, t_banquise* banquise)
+{
+    if((*player).death == 1)
+    {
+            printf("%s t'es mort\n", (*player).name);
+            (*player).position.x = (*player).start_point.x;
+            (*player).position.y = (*player).start_point.y;
+            (*player).death =0;
+
+            ImplementPlayerMatrix_aux(banquise, player);
+
+            (*player).score -= 100;
+    }
+}

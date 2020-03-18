@@ -18,7 +18,10 @@ void InitMatrixBanquise(int b_size, t_ground** matrix)
     {
         for(j=0; j<b_size; j++)
         {
-            if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)  // rempli les contours de la matrice d'eau
+            if((MATRIX_SIZE/2 - 2<i && i<MATRIX_SIZE/2 + 2) && (MATRIX_SIZE/2 - 2<j && j<MATRIX_SIZE/2 + 2))
+            {
+                matrix[i][j] = WATER;
+            }else if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)  // rempli les contours de la matrice d'eau
             {
                 matrix[i][j] = WATER;
             }
@@ -34,6 +37,35 @@ void ImplementFinalPointMatrix(t_ground** matrix, int nb_size)
     matrix[N][N] = FINAL_POINT;
 }
 
+void ImplementSpringMatrix(t_ground** matrix, int nb_size)
+{
+    int N = nb_size/2;
+    matrix[N][SPRING_GAP] = SPRING;                                 // Ressort nord
+    matrix[N][nb_size - SPRING_GAP - 1] = SPRING;                   // Ressort sud
+    matrix[SPRING_GAP][N] = SPRING;                                 // Ressort ouest
+    matrix[nb_size - SPRING_GAP - 1][N] = SPRING;                   // Ressort est
+}
+
+void ImplementRockMatrix(t_ground** matrix, int nb_size)
+{
+    int nb_rocks = MATRIX_SIZE * MATRIX_SIZE / 20;
+
+    int posx, posy;
+
+    for(int i=0; i<nb_rocks; i++)
+    {
+        posx = RandomInt(0, MATRIX_SIZE-1);
+        posy = RandomInt(0, MATRIX_SIZE-1);
+
+        while(!(matrix[posy][posx] == WATER || matrix[posy][posx] == PACKED_ICE))
+        {
+            posx = RandomInt(0, MATRIX_SIZE-1);
+            posy = RandomInt(0, MATRIX_SIZE-1);
+        }
+
+        matrix[posy][posx] = ROCK;
+    }
+}
 
 t_banquise* InitBanquise()
 {
@@ -54,6 +86,8 @@ t_banquise* InitBanquise()
 
     InitMatrixBanquise(MATRIX_SIZE, banquise_matrix);               // initialise la matrice
     ImplementFinalPointMatrix(banquise_matrix, MATRIX_SIZE);        // implemente le point d'arrive
+    ImplementSpringMatrix(banquise_matrix, MATRIX_SIZE);            // implemente les ressorts
+    ImplementRockMatrix(banquise_matrix, MATRIX_SIZE);              // implemente les rochers
 
     //STRUCT t_banquise
     t_banquise* banquise = malloc(sizeof(t_banquise));              // creation et allocation pour la banquise
