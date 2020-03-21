@@ -121,13 +121,17 @@ int verif_victory(t_game *game)
 
 void PlayLap(t_game* game)
 {
-    if((*game).nb_lap%3 == 1)
+    if((*game).nb_lap%2 == 0)
     {
         GenerateRandomIce((*game).banquise);
     }
+
     for(int i=0; i<(*game).nb_player; i++)
     {
         system("cls");                                                              //clear la console
+
+        IceMelting((*game).banquise);
+
         DisplayWithPlayers((*game).banquise, (*game).arr_player, (*game).nb_player);//Affiche la matrices
 
         printf("Tour n%c%d\n", 248, (*game).nb_lap);                                //Affiche du numéro de tour

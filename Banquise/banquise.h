@@ -25,6 +25,7 @@ typedef struct
 void CreateMatrixBanquise(int b_size, t_ground** matrix);       // Initialise une matrice de t_ground
 void ImplementFinalPointMatrix(t_ground** matrix, int nb_size); // Implemente le point d'arrivé au milieu d'une matrice
 void ImplementRockMatrix(t_ground** matrix, int nb_size);
+void IceMelting(t_banquise* banquise);
 t_banquise* InitBanquise(void);                                 // Initialise un pointeur de t_banquise
 void DisplayMatrix(t_banquise* banquise);                       // Affiche la matrice de la banquise sans couleur
 

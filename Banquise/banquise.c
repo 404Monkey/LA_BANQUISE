@@ -81,7 +81,6 @@ void ImplementRockMatrix(t_ground** matrix, int nb_size)
 
         while(!(matrix[posy][posx] == WATER || matrix[posy][posx] == PACKED_ICE) || ok)
         {
-            printf("test");
             posx = RandomInt(0, MATRIX_SIZE-1);
             posy = RandomInt(0, MATRIX_SIZE-1);
             ok = CheckAround(matrix, posx, posy);
@@ -89,6 +88,65 @@ void ImplementRockMatrix(t_ground** matrix, int nb_size)
 
         matrix[posy][posx] = ROCK;
     }
+}
+
+int CheckWaterAround(t_banquise* banquise, int x, int y)
+{
+    t_ground** matrix = (*banquise).matrix;
+
+    if
+    (
+        matrix[y-1][x] == WATER ||
+        matrix[y][x+1] == WATER ||
+        matrix[y+1][x] == WATER ||
+        matrix[y][x-1] == WATER
+    ) return 1;
+    else return 0;
+}
+
+int IsTherePackedIce(t_banquise* banquise)
+{
+    t_ground** matrix = (*banquise).matrix;
+    int N = (*banquise).banquise_size;
+    int ind = 0;
+
+    int i, j;
+    for(i=0; i<N; i++)
+    {
+        for(j=0; j<N; j++)
+        {
+            if(matrix[i][j] == PACKED_ICE)
+            {
+               ind += 1;
+            }
+        }
+    }
+
+    return ind;
+}
+
+void IceMelting(t_banquise* banquise)
+{
+    if(IsTherePackedIce(banquise) > 0)
+    {
+        t_ground** matrix = (*banquise).matrix;
+        int N = (*banquise).banquise_size;
+
+        int r = RandomInt(1, 10);
+
+        int posx = RandomInt(0, N-1);
+        int posy = RandomInt(0, N-1);
+
+        while(!((matrix[posy][posx] == PACKED_ICE) && CheckWaterAround(banquise, posx, posy))) // On veut une position où y'a de la glace et de l'eau juxtaposé
+        {
+            posx = RandomInt(0, N-1);
+            posy = RandomInt(0, N-1);
+        }
+        if(r == 1) // 10 % de chances que ca fonde
+        {
+            matrix[posy][posx] = WATER;
+        }
+    } else printf("Y'A PLUS DE BANQUISE ON VA TOUS MOURIIIR !!\n");
 }
 
 t_banquise* InitBanquise()
@@ -120,7 +178,6 @@ t_banquise* InitBanquise()
 
     return banquise;
 }
-
 
 void DisplayMatrix(t_banquise* banquise)
 {
