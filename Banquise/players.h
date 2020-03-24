@@ -3,19 +3,11 @@
 
 #include "banquise.h"
 
-typedef enum {RED, GREEN, BLUE, YELLOW, COLOR_DEFAULT, WATER_COLOR, ICE_COLOR, ROCK_COLOR, SPRING_COLOR, FINAL_POINT_COLOR} t_color;
+/******* CONSTANTES *******/
 
-typedef struct
-{
-    int x;              // position en x
-    int y;              // position en y
-} t_pos;
+#define PLAYER_GAP 3    // Ecart entre les bords de la matrice et les spawns des joueurs
 
-typedef struct
-{
-    int dx;             // deplacement en x
-    int dy;             // deplacement en y
-} t_vector;
+/******* STRUCTURES *******/
 
 typedef struct
 {
@@ -30,10 +22,13 @@ typedef struct
     int win;            // 1 s'il a gagné 0 sinon
 } t_player;
 
+
+/******* PROTOTYPES *******/
+
 t_player* CreatePlayer(t_color color, int id);                                          // Creer un joueur
 void CreateArrPlayer(t_player* arr_player, int nb_player);                              // Creer tableau de joueurs avec les bonnes positions
 void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player);                 // Implemente PLAYER dans la matrice en fonction de la position d'un joueur
 void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player);  // Implemente PLAYER dans la matrice pour tous les joueurs
-void RespawnPlayer(t_player* player, t_banquise* banquise);
+void RespawnPlayer(t_player* player, t_banquise* banquise);                             // Replace un joueur à son spawn s'il est mort
 
 

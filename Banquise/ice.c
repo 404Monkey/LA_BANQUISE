@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>
 
 #include "ice.h"
 
+/******* ICE *******/
 
 void GenerateRandomIce(t_banquise* banquise)
 {
@@ -12,12 +14,12 @@ void GenerateRandomIce(t_banquise* banquise)
 
     int N = b_size - WATER_LIMIT;
 
-    int rx = RandomInt(WATER_LIMIT, N-1);
+    int rx = RandomInt(WATER_LIMIT, N-1);   // indices au hasard entre là où commence la banquise et où elle se termine
     int ry = RandomInt(WATER_LIMIT, N-1);
 
     if(matrix[ry][rx] == PACKED_ICE)
     {
-    matrix[ry][rx] = ICE;
+        matrix[ry][rx] = ICE;
     }
 }
 
@@ -41,10 +43,7 @@ t_ice* InitIce(t_player* player)
     return ice;
 }
 
-/************** FONCTIONS AUX DE DEPLACEMENT ****************/
-
-
-// FONCTION VERIFIANT SI LE GLACON EST SUR LE POINT DE SE DEPLACER EN DEHORS DU PLATEAU DE JEU
+/******* FONCTIONS AUX DE DEPLACEMENT *******/
 
 int verif_exit_board_ice(int x, int y, int size_board)
 {
@@ -54,8 +53,6 @@ int verif_exit_board_ice(int x, int y, int size_board)
     }
     else return 0;                              //sinon retourne 0
 }
-
-// FONCTION CHERCHANT L'ID DU JOUEUR SE SITUANT DANS LA CASE ENTREE EN PARAMETRE
 
 int verif_player_in_pos(int x, int y, t_player *arr_player, int nb_player)
 {
@@ -77,8 +74,6 @@ int verif_player_in_pos(int x, int y, t_player *arr_player, int nb_player)
     else printf("*** ERROR with verif_player_in_pos(int x, int y, t_game *game) \n***");
 }
 
-// FONCTION PERMETTANT DE GERER LA COLLISION ENTE UN GLACON ET UN JOUEUR
-
 void kill_by_ice(int x, int y, int id_killer, t_player *arr_player, int nb_player)
 {
     int id_victim = verif_player_in_pos(x,y,arr_player,nb_player);
@@ -86,42 +81,310 @@ void kill_by_ice(int x, int y, int id_killer, t_player *arr_player, int nb_playe
     arr_player[id_killer].score += 100;         //recompense le joueur ayant inittie la collision avec le glacon
 }
 
-void RotationSpringIce(t_ice* ice)
+/******** Spring ********/
+
+t_spring* WhichSpringIsIt(t_banquise* board, int headx, int heady)
+{
+    int i;
+    t_spring* spring = malloc(sizeof(t_spring));
+    for(i=0; i<4; i++)
+    {
+        spring = &(*board).arrspring[i];
+        if ((*spring).position.x == headx && (*spring).position.y == heady) // Vérifie si les indices corresponde avec un ressort existant
+        {
+            break;
+        }
+    }
+    return spring;
+}
+
+void RotationSpringIce(t_ice* ice, t_spring* spring)
 {
     int dx = (*ice).vect.dx;
     int dy = (*ice).vect.dy;
+    int card = (*spring).where;
 
-    if(dx == 1 && dy == 0)          // glacon arrive par la gauche
-    {
-        (*ice).position.x += 1;
-        (*ice).position.y += 1;
-        (*ice).vect.dx = 0;
-        (*ice).vect.dy = 1;
-    }
-    if(dx == 0 && dy == -1)         // glacon arrive par le bas
-    {
-        (*ice).position.x += 1;
-        (*ice).position.y += -1;
-        (*ice).vect.dx = 1;
-        (*ice).vect.dy = 0;
-    }
-    if(dx == -1 && dy == 0)         // glacon arrice par la droite
-    {
-        (*ice).position.x += -1;
-        (*ice).position.y += -1;
-        (*ice).vect.dx = 0;
-        (*ice).vect.dy = -1;
-    }
-    if(dx == 0 && dy == 1)          // glacon arrice par le haut
-    {
-        (*ice).position.x += -1;
-        (*ice).position.y += 1;
-        (*ice).vect.dx = -1;
-        (*ice).vect.dy = 0;
+    switch(card)
+    {   // On a décidé d'orienter les ressorts vers le point final quel que soit le vecteur du glacon
+        case NORTH :
+            if(dx == 1 && dy == 0)          // glacon arrive par la gauche
+            {
+                (*ice).position.x += 1;
+                (*ice).position.y += 1;
+            }
+            if(dx == -1 && dy == 0)         // glacon arrice par la droite
+            {
+                (*ice).position.x += -1;
+                (*ice).position.y += 1;
+            }
+            if(dx == 0 && dy == 1)          // glacon arrice par le haut
+            {
+                (*ice).position.y += 2;
+            }
+            (*ice).vect.dx = 0;
+            (*ice).vect.dy = 1;
+            break;
+        case EAST :
+            if(dx == 0 && dy == -1)         // glacon arrive par le bas
+            {
+                (*ice).position.x += -1;
+                (*ice).position.y += -1;
+            }
+            if(dx == -1 && dy == 0)         // glacon arrice par la droite
+            {
+                (*ice).position.x += -2;
+            }
+            if(dx == 0 && dy == 1)          // glacon arrice par le haut
+            {
+                (*ice).position.x += -1;
+                (*ice).position.y += 1;
+            }
+            (*ice).vect.dx = -1;
+            (*ice).vect.dy = 0;
+            break;
+        case SOUTH :
+            if(dx == 1 && dy == 0)          // glacon arrive par la gauche
+            {
+                (*ice).position.x += 1;
+                (*ice).position.y += -1;
+            }
+            if(dx == 0 && dy == -1)         // glacon arrive par le bas
+            {
+                (*ice).position.y += -2;
+            }
+            if(dx == -1 && dy == 0)         // glacon arrice par la droite
+            {
+                (*ice).position.x += -1;
+                (*ice).position.y += -1;
+            }
+            (*ice).vect.dx = 0;
+            (*ice).vect.dy = -1;
+            break;
+        case WEST :
+            if(dx == 1 && dy == 0)          // glacon arrive par la gauche
+            {
+                (*ice).position.x += 2;
+            }
+            if(dx == 0 && dy == -1)         // glacon arrive par le bas
+            {
+                (*ice).position.x += 1;
+                (*ice).position.y += -1;
+            }
+            if(dx == 0 && dy == 1)          // glacon arrice par le haut
+            {
+                (*ice).position.x += 1;
+                (*ice).position.y += 1;
+            }
+            (*ice).vect.dx = 1;
+            (*ice).vect.dy = 0;
+            break;
     }
 }
 
-// FONCTION PERMETTANT DE GERER LE DEPLACEMENT DU GLACON ET SES EVENTUELLES COLLISIONS
+/******* HAMMER *******/
+
+t_hammer* WhichHammerIsIt(t_banquise* board, int headx, int heady)
+{
+    int i;
+    t_hammer* hammer = malloc(sizeof(t_hammer));
+    for(i=0; i<4; i++)
+    {
+        hammer = &(*board).arrhammer[i];
+        if ((*hammer).head.x == headx && (*hammer).head.y == heady) // Vérifie si les indices correspondent avec un marteau existant
+        {
+            break;
+        }
+    }
+    return hammer;
+}
+
+void StopIceHammer(t_ice* ice, t_hammer* hammer)
+{
+    int dx = (*ice).vect.dx;
+    int dy = (*ice).vect.dy;
+    t_hammerstate hammerstate = (*hammer).state;
+
+    if  // Si le socle du marteau est derrière sa tete, on stoppe le glacon
+    (
+        (dx == 0 && dy == 1 && hammerstate == TOP) ||
+        (dx == 0 && dy == -1 && hammerstate == BOTTOM) ||
+        (dx == 1 && dy == 0 && hammerstate == LEFT) ||
+        (dx == -1 && dy == 0 && hammerstate == RIGHT)
+    )
+    {
+        (*ice).is_moving = 0;
+    }
+}
+
+int RotationStateHammerMovement(t_ice* ice, t_hammer* hammer)
+{
+    int dx = (*ice).vect.dx;
+    int dy = (*ice).vect.dy;
+    t_hammerstate hammerstate = (*hammer).state;
+
+    int rotationstate;
+
+    switch(hammerstate)
+    {                   // rotationstate = 1 pour sens Horaire 0 pour anti-horaraire
+        case TOP :      if(dx == 1 && dy == 0) rotationstate = 1;
+                        if(dx == -1 && dy == 0) rotationstate = 0;
+                        break;
+        case BOTTOM :   if(dx == 1 && dy == 0) rotationstate = 0;
+                        if(dx == -1 && dy == 0) rotationstate = 1;
+                        break;
+        case LEFT :     if(dx == 0 && dy == 1) rotationstate = 0;
+                        if(dx == 0 && dy == -1) rotationstate = 1;
+                        break;
+        case RIGHT :    if(dx == 0 && dy == 1) rotationstate = 1;
+                        if(dx == 0 && dy == -1) rotationstate = 0;
+                        break;
+    }
+
+    return rotationstate;
+}
+
+void ChangeIceVector(t_ice* ice, t_hammer* hammer, int rotationstate)
+{
+    int dx = (*ice).vect.dx;
+    int dy = (*ice).vect.dy;
+    t_hammerstate hammerstate = (*hammer).state;
+
+    if(rotationstate == 1)
+    {   // Oriente le vecteur du glacon selon le sens de rotation, son vecteur, et la position de la tete
+        if(dx == 1 && dy == 0 && hammerstate == TOP)
+        {
+            (*ice).vect.dx = 0;
+            (*ice).vect.dy = -1;
+        }
+        if(dx == 0 && dy == 1 && hammerstate == RIGHT)
+        {
+            (*ice).vect.dx = 1;
+            (*ice).vect.dy = 0;
+        }
+        if(dx == -1 && dy == 0 && hammerstate == BOTTOM)
+        {
+            (*ice).vect.dx = 0;
+            (*ice).vect.dy = 1;
+        }
+        if(dx == 0 && dy == -1 && hammerstate == LEFT)
+        {
+            (*ice).vect.dx = -1;
+            (*ice).vect.dy = 0;
+        }
+    }
+    else
+    {
+        if(dx == -1 && dy == 0 && hammerstate == TOP)
+        {
+            (*ice).vect.dx = 0;
+            (*ice).vect.dy = -1;
+        }
+        if(dx == 0 && dy == -1 && hammerstate == RIGHT)
+        {
+            (*ice).vect.dx = 1;
+            (*ice).vect.dy = 0;
+        }
+        if(dx == 1 && dy == 0 && hammerstate == BOTTOM)
+        {
+            (*ice).vect.dx = 0;
+            (*ice).vect.dy = 1;
+        }
+        if(dx == 0 && dy == 1 && hammerstate == LEFT)
+        {
+            (*ice).vect.dx = -1;
+            (*ice).vect.dy = 0;
+        }
+    }
+}
+
+void InteractionHammer(t_ice* ice, t_hammer* hammer, t_banquise* banquise, t_player* arr_player, int nb_player)
+{
+    int rotationstate = RotationStateHammerMovement(ice, hammer);
+
+    ChangeIceVector(ice, hammer, rotationstate);
+
+    int i;
+    for(i=0; i<3; i++)  // 3 car un marteau fait 3/4 de tour
+    {
+        t_hammerstate hammerstate = (*hammer).state;
+
+        if(rotationstate == 1)      // Change la position de la tete selon le sens de rotation et affiche chaque etat
+        {
+            if(hammerstate == TOP)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += 1;
+                (*hammer).head.y += 1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = RIGHT;
+            }
+            if(hammerstate == RIGHT)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += -1;
+                (*hammer).head.y += 1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = BOTTOM;
+            }
+            if(hammerstate == BOTTOM)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += -1;
+                (*hammer).head.y += -1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = LEFT;
+            }
+            if(hammerstate == LEFT)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += 1;
+                (*hammer).head.y += -1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = TOP;
+            }
+        }
+        if(rotationstate == 0)
+        {
+            if(hammerstate == TOP)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += -1;
+                (*hammer).head.y += 1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = LEFT;
+            }
+            if(hammerstate == LEFT)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += 1;
+                (*hammer).head.y += 1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = BOTTOM;
+            }
+            if(hammerstate == BOTTOM)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += 1;
+                (*hammer).head.y += -1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = RIGHT;
+            }
+            if(hammerstate == RIGHT)
+            {
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = PACKED_ICE;
+                (*hammer).head.x += -1;
+                (*hammer).head.y += -1;
+                (*banquise).matrix[(*hammer).head.y][(*hammer).head.x] = HAMMER_HEAD;
+                (*hammer).state = TOP;
+            }
+        }
+        system("cls");
+        DisplayWithColors(banquise, arr_player, nb_player);
+        Sleep(300);
+    }
+}
+
+/******* DISPLACEMENT *******/
 
 void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int nb_player)
 {
@@ -132,8 +395,8 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
             new_pos_x = pos_x + (*ice).vect.dx,
             new_pos_y = pos_y + (*ice).vect.dy,
             new_new_pos_x = new_pos_x + (*ice).vect.dx,
-            new_new_pos_y = new_pos_y + (*ice).vect.dy;;
-        printf("j'ai init un glacon\n");
+            new_new_pos_y = new_pos_y + (*ice).vect.dy;
+
         if (verif_exit_board_ice(new_pos_x,new_pos_y,(*board).banquise_size))   //vraie si le glacon veut sortir du plateau de jeu
         {
             (*ice).is_moving = 0;                                               //si condition vraie, arrete le deplacement du glacon
@@ -141,12 +404,13 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
         else
         {
             system("cls");
-            DisplayWithPlayers(board, arr_player, nb_player);
+            DisplayWithColors(board, arr_player, nb_player);
 
             int obstacle = (*board).matrix[new_pos_y][new_pos_x];
 
             switch (obstacle){                                                  //evalue l'obsatacle que va rencontrer le glacon dans son deplacement
                 case ROCK:                                                      //si c'est un rocher,
+                case HAMMER_PLINTH :
                 (*ice).is_moving = 0;                                           //on ne bouge plus le glacon
                 break;
                 case WATER:                                                     //si c'est de l'eau,
@@ -182,8 +446,26 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
                 (*ice).position.y = new_pos_y;                                  //on affecte cette nouvelle position en y au glacon
                 break;
                 case SPRING:
-                (*board).matrix[pos_y][pos_x] = PACKED_ICE;
-                RotationSpringIce(ice);
+                    (*board).matrix[pos_y][pos_x] = PACKED_ICE;
+
+                    t_spring* spring = malloc(sizeof(t_spring));
+                    spring = WhichSpringIsIt(board, new_pos_x, new_pos_y);
+
+                    RotationSpringIce(ice, spring);
+                    (*board).matrix[(*ice).position.y][(*ice).position.x] = ICE;
+                break;
+                case HAMMER_HEAD :
+{
+                    t_hammer* hammer = malloc(sizeof(t_hammer));
+                    hammer = WhichHammerIsIt(board, new_pos_x, new_pos_y);
+
+                    StopIceHammer(ice, hammer);
+                    if((*ice).is_moving == 1)
+                    {
+                        InteractionHammer(ice, hammer, board, arr_player, nb_player);
+                    }
+}
+                    break;
             default:
             printf("ERROR with displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int nb_player) \n");
             }

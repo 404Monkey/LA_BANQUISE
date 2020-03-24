@@ -3,7 +3,7 @@
 
 #include "players.h"
 
-#define PLAYER_GAP 3                                            // Ecart entre les bords de la matrice et les spawns des joueurs
+/******* PLAYERS *******/
 
 t_player* CreatePlayer(t_color color, int id)
 {
@@ -17,6 +17,7 @@ t_player* CreatePlayer(t_color color, int id)
     (*player).color = color;
     (*player).id = id;
     (*player).position.x = (*player).position.y = 0;
+    (*player).start_point.x = (*player).start_point.y = 0;
     (*player).vect.dx = (*player).vect.dy = 0;
     (*player).score = 0;
     (*player).death = 0;
@@ -30,7 +31,7 @@ void CreateArrPlayer(t_player* arr_player, int nb_player)
     for (int i=0; i<nb_player; i++)
     {
         arr_player[i] = *CreatePlayer(i,i+1);
-        switch(i)                                                                        // Positionne aux coins de la matrice en fonction de l'écart
+        switch(i)    // Positionne aux coins de la matrice en fonction de l'écart
         {
             case 0 : arr_player[i].position.x = arr_player[i].start_point.x =PLAYER_GAP;
                      arr_player[i].position.y = arr_player[i].start_point.y = PLAYER_GAP; break;
@@ -61,8 +62,6 @@ void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_pl
     }
 }
 
-//  FONCTION REPLACANT LE JOUEUR A SON POINT DE DEPART S'IL MEURT
-
 void RespawnPlayer(t_player* player, t_banquise* banquise)
 {
     if((*player).death == 1)
@@ -72,7 +71,7 @@ void RespawnPlayer(t_player* player, t_banquise* banquise)
             (*player).position.y = (*player).start_point.y;
             (*player).death =0;
 
-            ImplementPlayerMatrix_aux(banquise, player);
+            ImplementPlayerMatrix_aux(banquise, player); // Replace le joueur à son point de départ s'il meurt
 
             (*player).score -= 100;
     }

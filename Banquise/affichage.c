@@ -4,12 +4,6 @@
 
 #include "affichage.h"
 
-void textcolor(int color)
-{
-HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(h,color);
-}
-
 void ChangeTextColor(t_color color)
 {
     switch(color)
@@ -21,6 +15,7 @@ void ChangeTextColor(t_color color)
         case WATER_COLOR : textcolor(3); break;
         case ICE_COLOR : textcolor(9); break;
         case ROCK_COLOR : textcolor(8); break;
+        case HAMMER_COLOR :
         case SPRING_COLOR : textcolor(5); break;
         case FINAL_POINT_COLOR : textcolor(6); break;
         case COLOR_DEFAULT : textcolor(7); break;
@@ -39,7 +34,7 @@ void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int
     {
         if(CheckPosition(banqx, banqy, &arr_player[i]) == 1)
         {
-            ChangeTextColor(arr_player[i].color);                                                              // Change la couleur en celle du joueur
+            ChangeTextColor(arr_player[i].color);   // Change la couleur en celle du joueur
             break;
         }
     }
@@ -53,12 +48,14 @@ void ChangeColorGroundMatrix(t_ground ground)
     case ICE : ChangeTextColor(ICE_COLOR); break;
     case ROCK : ChangeTextColor(ROCK_COLOR); break;
     case SPRING : ChangeTextColor(SPRING_COLOR); break;
+    case HAMMER_HEAD :
+    case HAMMER_PLINTH : ChangeTextColor(HAMMER_COLOR); break;
     case FINAL_POINT : ChangeTextColor(FINAL_POINT_COLOR); break;
     default : ChangeTextColor(COLOR_DEFAULT);
     }
 }
 
-void DisplayWithPlayers(t_banquise* banquise, t_player* arr_player, int nb_players)
+void DisplayWithColors(t_banquise* banquise, t_player* arr_player, int nb_players)
 {
     t_ground** matrix = (*banquise).matrix;                             // récupère la matrice
     int b_size = (*banquise).banquise_size;                             // récupère la taille de la matrice

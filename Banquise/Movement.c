@@ -69,7 +69,7 @@ int verif_exit_board(int x, int y, int size_board)
 int verif_player_board(int x, int y,t_banquise *board)
 {
     int case_board = (*board).matrix[y][x];
-     if ((case_board == PLAYER) || (case_board == ROCK) || (case_board == SPRING))
+     if ((case_board == PLAYER) || (case_board == ROCK) || (case_board == SPRING) || (case_board == HAMMER_HEAD) || (case_board == HAMMER_PLINTH))
     {
         printf("Deplacement impossible, veuillez reessayer.\n");
         return 1;                               //retourne vrai si le joueur souhaite se deplacer dans une case occupee par un autre joueur

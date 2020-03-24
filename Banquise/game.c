@@ -121,7 +121,7 @@ int verif_victory(t_game *game)
 
 void PlayLap(t_game* game)
 {
-    if((*game).nb_lap%2 == 0)
+    if((*game).nb_lap % 2 == 0)
     {
         GenerateRandomIce((*game).banquise);
     }
@@ -132,14 +132,12 @@ void PlayLap(t_game* game)
 
         IceMelting((*game).banquise);
 
-        DisplayWithPlayers((*game).banquise, (*game).arr_player, (*game).nb_player);//Affiche la matrices
+        DisplayWithColors((*game).banquise, (*game).arr_player, (*game).nb_player);//Affiche la matrices
 
         printf("Tour n%c%d\n", 248, (*game).nb_lap);                                //Affiche du numéro de tour
         printf("%s, %c toi de jouer !\n", (*game).arr_player[i].name, 133);         //Affiche quel joueur doit jouer
 
          //affichage test **                                                       // Si on veut afficher faire avant displacement, le scanf retarde le clear
-        printf("P%d_win : %d\n", i+1, (*game).arr_player[i].win);
-        printf("P%d_death : %d\n", i+1, (*game).arr_player[i].death);
         printf("P%d_score : %d\n", i+1, (*game).arr_player[i].score);
 
         displacement_player(&(*game).arr_player[i],(*game).banquise,(*game).arr_player,(*game).nb_player);   //Demande aux joueur de se deplacer
@@ -160,11 +158,8 @@ void PlayGame(t_game* game)
 
     while(verif_victory(game) == 0)
     {
-        //printf("Je boucle car verif_victory = %d ==0 \n", verif_victory(game));
         PlayLap(game);
     }
-
-    //printf("Je ne boucle pas car verif_victory = %d !=0 \n", verif_victory(game));
 
     sort_ranking(game);                 //effectue le classement des joueurs
 
