@@ -4,6 +4,10 @@
 
 #include "affichage.h"
 
+/******* AFFICHAGE *******/
+
+// BENJAMIN - CHANGE LA COULEUR
+
 void ChangeTextColor(t_color color)
 {
     switch(color)
@@ -22,10 +26,18 @@ void ChangeTextColor(t_color color)
     }
 }
 
+// BENJAMIN - VERIFIE S'IL Y'A UN JOUEUR SUR UNE CASE
+
 int CheckPosition(int indbanqx, int indbanqy, t_player* player)
 {
-    return (((*player).death == 0) && (indbanqx == (*player).position.x)&&(indbanqy == (*player).position.y)); // 1 si le joueur est vivant et sur les mêmes indices que la matrice
+    int death = (*player).death;
+    int playerposx = (*player).position.x;
+    int playerposy = (*player).position.y;
+
+    return ((death == 0) && (indbanqx == playerposx) && (indbanqy == playerposy)); // 1 si le joueur est vivant et sur les mêmes indices que la matrice
 }
+
+// BENJAMIN - CHANGE LA COULEUR POUR LES JOUEURS
 
 void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int banqy)
 {
@@ -39,6 +51,8 @@ void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int
         }
     }
 }
+
+// BENJAMIN - CHANGE LA COULEUR POUR LES SOLS
 
 void ChangeColorGroundMatrix(t_ground ground)
 {
@@ -54,6 +68,8 @@ void ChangeColorGroundMatrix(t_ground ground)
     default : ChangeTextColor(COLOR_DEFAULT);
     }
 }
+
+// BENJAMIN - AFFICHE LA MATRICE AVEC LES COULEURS
 
 void DisplayWithColors(t_banquise* banquise, t_player* arr_player, int nb_players)
 {
@@ -72,7 +88,8 @@ void DisplayWithColors(t_banquise* banquise, t_player* arr_player, int nb_player
             ChangeColorGroundMatrix(matrix[i][j]);
             ChangeColorPlayerMatrix(arr_player, nb_players, j, i);      // Vérifie s'il y a un joueur sur les indices courants si oui on change la couleur à celle du joueur
             printf("% d", matrix[i][j]);
-            textcolor(7);
+            ChangeTextColor(COLOR_DEFAULT);                             // Remet la couleur par defaut
+
             if(j%b_size == b_size-1) printf(" |");
         }
     }

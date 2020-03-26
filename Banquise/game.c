@@ -4,6 +4,10 @@
 
 #include "game.h"
 
+/******* INITIALISATION *******/
+
+// BENJAMIN - INITIALISE UN JEU
+
 t_game* InitGame()
 {
     t_game* game = malloc(sizeof(t_game));                                          // créer un t_game* et alloue l'espace associé
@@ -33,7 +37,7 @@ t_game* InitGame()
     return game;
 }
 
-/*********** LANCEMENT DU JEU ************/
+/******* FIN DU JEU *******/
 
 
 /* Foncrion qui permet de choper l'ID du joueur ayant atteint la case d'arrivée
@@ -52,7 +56,7 @@ int ranking_player(t_player *arr_player, int nb_player)
 /* FONCTIONS AUXILIERES*/
 
 
-// FONCTION POUR TRIER UN TABLEAU A 2 DIMENSIONS //
+//HENINTSOA - FONCTION POUR TRIER UN TABLEAU A 2 DIMENSIONS //
 
 void sort_tab(int tab[4][2], int size_tab)  //ici, le nb de lignes (nb de joueurs maximum) ainsi que le nb de colonnes sont rentre en dur
 {
@@ -76,7 +80,7 @@ void sort_tab(int tab[4][2], int size_tab)  //ici, le nb de lignes (nb de joueur
      }
 }
 
-// FONCTION POUR EFFECTUER LE CLASSEMENT DES JOUEURS //
+//HENINTSOA - FONCTION POUR EFFECTUER LE CLASSEMENT DES JOUEURS //
 
 void sort_ranking(t_game *game)
 {
@@ -96,7 +100,7 @@ void sort_ranking(t_game *game)
     }
 }
 
-// FONCRION VERIFIANT SI UN JOUEUR EST ARRIVE AU POINT D'ARRIVEE //
+//HENINTSOA - FONCRION VERIFIANT SI UN JOUEUR EST ARRIVE AU POINT D'ARRIVEE //
 
 int verif_victory(t_game *game)
 {
@@ -117,28 +121,56 @@ int verif_victory(t_game *game)
     else return 0;                          //sinon "faux"
 }
 
-// TOUR DE JEU //
+//HENINTSOA - FONCTION PERMETTANT D'ETABLIR ET D'AFFICHER LE CLASSEMENT EN FIN DE JEU
+
+void display_end_game(t_game *game)
+{
+    int size_tab = (*game).nb_player;
+
+    sort_ranking(game);                 //effectue le classement des joueurs
+
+    system("cls");
+    printf(" ******** FIN DU JEU ******** \n");
+    printf("\nLe vainqueur est %s.\n", (*game).arr_player[(*game).ranking[0]].name);  //affichage du vainqueur
+    printf("\nVoici le classement:");
+
+    for (int i=0; i<size_tab; i++)      //affichage du classement
+    {
+        int id_player = (*game).ranking[i];
+
+        if (i==0)
+        {
+            printf("\n%der: %s avec un score de %d points.", i+1, (*game).arr_player[id_player].name, (*game).arr_player[id_player].score);
+        }
+        else
+        {
+            printf("\n%de : %s avec un score de %d points.", i+1, (*game).arr_player[id_player].name, (*game).arr_player[id_player].score);
+        }
+    }
+}
+
+/******* JEU *******/
+
+//BENJAMIN & HENINTSOA - TOUR DE JEU
 
 void PlayLap(t_game* game)
 {
-    if((*game).nb_lap % 2 == 0)
-    {
+    if((*game).nb_lap % 4 == 0)
+    {   // Genere un glacon aléatoirement tous les 4 tours
         GenerateRandomIce((*game).banquise);
     }
 
     for(int i=0; i<(*game).nb_player; i++)
     {
-        system("cls");                                                              //clear la console
+        system("cls");                                                              // clear la console
 
         IceMelting((*game).banquise);
 
-        DisplayWithColors((*game).banquise, (*game).arr_player, (*game).nb_player);//Affiche la matrices
+        DisplayWithColors((*game).banquise, (*game).arr_player, (*game).nb_player); // Affiche la matrice avec les couleurs
 
-        printf("Tour n%c%d\n", 248, (*game).nb_lap);                                //Affiche du numéro de tour
-        printf("%s, %c toi de jouer !\n", (*game).arr_player[i].name, 133);         //Affiche quel joueur doit jouer
-
-         //affichage test **                                                       // Si on veut afficher faire avant displacement, le scanf retarde le clear
-        printf("P%d_score : %d\n", i+1, (*game).arr_player[i].score);
+        printf("Tour n%c%d\n", 248, (*game).nb_lap);                                // Affiche du numéro de tour
+        printf("%s, %c toi de jouer !\n", (*game).arr_player[i].name, 133);         // Affiche quel joueur doit jouer
+        printf("Joueur %d, ton score : %d\n", i+1, (*game).arr_player[i].score);    // Affiche le score du joueur
 
         displacement_player(&(*game).arr_player[i],(*game).banquise,(*game).arr_player,(*game).nb_player);   //Demande aux joueur de se deplacer
 
@@ -146,38 +178,22 @@ void PlayLap(t_game* game)
         {
             RespawnPlayer(&(*game).arr_player[j], (*game).banquise);                // Regarde si un des joueurs est mort et le rescussite
         }
+
         if ((*game).arr_player[i].win == 1)
             break;
     }
+
     (*game).nb_lap += 1;                                                            // Compte le nombre de tour
 }
 
+// HENINTSOA - JOUE UNE PARTIE
+
 void PlayGame(t_game* game)
 {
-    int size_tab = (*game).nb_player;
-
-    while(verif_victory(game) == 0)
+    while(verif_victory(game) == 0)    // boucle le jeu tant que les conditions de fin de jeu ne sont pas verifiees
     {
         PlayLap(game);
     }
 
-    sort_ranking(game);                 //effectue le classement des joueurs
-
-    system("cls");
-    printf(" ******** FIN DU JEU ******** \n");
-    printf("Le vainqueur est %s.\n", (*game).arr_player[(*game).ranking[0]].name);  //affichage du vainqueur
-    printf("Voici le classement:");
-
-    for (int i=0; i<size_tab; i++)      //affichage du classement
-    {
-        int id_player = (*game).ranking[i];
-        if (i==0)
-        {
-            printf("\n%der: %s avec un score de %d points.\n", i+1, (*game).arr_player[id_player].name, (*game).arr_player[id_player].score);
-        }
-        else
-        {
-            printf("\n%de: %s avec un score de %d points.\n", i+1, (*game).arr_player[id_player].name, (*game).arr_player[id_player].score);
-        }
-    }
+    display_end_game(game);             // etablit et affiche le classement des joueurs lorsque le jeu est finie
 }

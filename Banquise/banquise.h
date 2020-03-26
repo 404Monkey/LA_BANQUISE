@@ -9,17 +9,17 @@
 
 /******* CONSTANTES *******/
 
-#define MATRIX_SIZE 21                                          // Taille de la matrice
-#define WATER_LIMIT 2                                           // Ecart de l'eau au contours de la matrice
-#define SPRING_GAP 5                                            // Ecart des ressorts aux contours de la matrice
-#define HAMMER_PLINTH_GAP 4                                     // Ecart socle marteau
+#define MATRIX_SIZE 21      // Taille de la matrice
+#define WATER_LIMIT 2       // Ecart de l'eau au contours de la matrice
+#define SPRING_GAP 5        // Ecart des ressorts aux contours de la matrice
+#define HAMMER_PLINTH_GAP 4 // Ecart socle marteau
 
 
 /******* STRUCTURES *******/
 
 typedef enum {WATER, PACKED_ICE, PLAYER, ICE, ROCK, SPRING, FINAL_POINT, HAMMER_HEAD, HAMMER_PLINTH} t_ground;  // les differents types de sol dans la matrice
 
-typedef enum {TOP, BOTTOM, LEFT, RIGHT} t_hammerstate;          // Etat d'un marteau
+typedef enum {TOP, BOTTOM, LEFT, RIGHT} t_hammerstate;  // Etat d'un marteau
 
 typedef enum {NORTH, EAST, SOUTH, WEST} t_cardinal;
 
@@ -74,6 +74,6 @@ void CreateArrHammer(t_hammer* arrhammer);                          // Créer le 
 void ImplementHammerMatrix(t_ground** matrix, t_hammer* arrhammer); // Implemente les marteaux dans la matrice
 
 // Banquise
-t_banquise* InitBanquise(void);                                 // Initialise un pointeur de t_banquise
+t_banquise* InitBanquise(void);                                     // Initialise un pointeur de t_banquise
 
 

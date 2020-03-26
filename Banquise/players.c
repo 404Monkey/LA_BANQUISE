@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 
 #include "players.h"
 
 /******* PLAYERS *******/
+
+// BENJAMIN - CREE UN JOUEUR
 
 t_player* CreatePlayer(t_color color, int id)
 {
@@ -26,6 +29,8 @@ t_player* CreatePlayer(t_color color, int id)
     return player;
 }
 
+// BENJAMIN - CREE LE TABLEAU DES JOUEURS
+
 void CreateArrPlayer(t_player* arr_player, int nb_player)
 {
     for (int i=0; i<nb_player; i++)
@@ -45,34 +50,44 @@ void CreateArrPlayer(t_player* arr_player, int nb_player)
     }
 }
 
+// BENJAMIN - IMPLEMENTE UN JOUEUR DANS LA MATRICE
+
 void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player)
 {
     int posx = (*player).position.x;
     int posy = (*player).position.y;
 
-    (*banquise).matrix[posy][posx] = PLAYER;                    // Implemente PLAYER à la position du joueur
+    (*banquise).matrix[posy][posx] = PLAYER; // Implemente PLAYER à la position du joueur
 }
+
+// BENJAMIN - IMPLEMENTE TOUS LES JOUEURS DANS LA MATRICE
 
 void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player)
 {
     int i;
     for(i=0; i<nb_player; i++)
     {
-        ImplementPlayerMatrix_aux(banquise, &arr_player[i]);    // Implemente PLAYER pour tous les joueurs
+        ImplementPlayerMatrix_aux(banquise, &arr_player[i]); // Implemente PLAYER pour tous les joueurs
     }
 }
+
+// BENJAMIN - RESSUSCITE UN JOUEUR
 
 void RespawnPlayer(t_player* player, t_banquise* banquise)
 {
     if((*player).death == 1)
     {
-            printf("%s t'es mort\n", (*player).name);
-            (*player).position.x = (*player).start_point.x;
-            (*player).position.y = (*player).start_point.y;
-            (*player).death =0;
+        system("cls");
+        printf("%s t'es mort :/\n", (*player).name);
+        printf("- 100 points ;P\n");
+        Sleep(500);
 
-            ImplementPlayerMatrix_aux(banquise, player); // Replace le joueur à son point de départ s'il meurt
+        (*player).position.x = (*player).start_point.x;
+        (*player).position.y = (*player).start_point.y;
+        (*player).death = 0;
 
-            (*player).score -= 100;
+        ImplementPlayerMatrix_aux(banquise, player); // Replace le joueur à son point de départ s'il meurt
+
+        (*player).score -= 100;
     }
 }

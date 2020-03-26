@@ -5,12 +5,13 @@
 
 /******* STRUCTURES *******/
 
+//type du glacon
 typedef struct
 {
-    t_vector vect;
-    t_pos position;
-    int is_moving;
-    int player_source;
+    t_vector vect;          // Vecteur du glacon
+    t_pos position;         // Position du glacon
+    int is_moving;          // 1 si le glacon bouge 0 sinon
+    int player_source;      // Joueur à l'origine du glacon
 } t_ice;
 
 /******* PROTOTYPES *******/
@@ -19,12 +20,12 @@ typedef struct
 void GenerateRandomIce(t_banquise* banquise);       // Place un glacon aléatoirement dans la matrice
 t_ice* InitIce(t_player* player);                   // Initialise un glaçon
 
-//Fonctions aux de deplacement
+// DEPLACEMENTS AUXILIAIRES ICE
 int verif_exit_board_ice(int x, int y, int size_board);                             // VERIFIE SI LE GLACON EST SUR LE POINT DE SE DEPLACER EN DEHORS DU PLATEAU DE JEU
 int verif_player_in_pos(int x, int y, t_player *arr_player, int nb_player);         // CHERCHE L'ID DU JOUEUR SE SITUANT DANS LA CASE ENTREE EN PARAMETRE
 void kill_by_ice(int x, int y, int id_killer, t_player *arr_player, int nb_player); // PERMET DE GERER LA COLLISION ENTE UN GLACON ET UN JOUEUR
 
-//Spring
+// Ressort
 t_spring* WhichSpringIsIt(t_banquise* board, int headx, int heady); // Cherche quel ressort le glacon a touché
 void RotationSpringIce(t_ice* ice, t_spring* spring);               // Oriente le glacon quand il touche un ressort
 

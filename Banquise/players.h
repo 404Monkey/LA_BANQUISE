@@ -9,6 +9,7 @@
 
 /******* STRUCTURES *******/
 
+// type du joueur
 typedef struct
 {
     char *name;         // nom

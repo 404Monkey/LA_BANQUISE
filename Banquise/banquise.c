@@ -10,6 +10,8 @@
 
 /******* INITIALISATION BANQUISE *******/
 
+// BENJAMIN - INITIALISE UNE MATRICE DE T_GROUND
+
 void InitMatrixBanquise(int b_size, t_ground** matrix)
 {
     int i, j;
@@ -20,7 +22,8 @@ void InitMatrixBanquise(int b_size, t_ground** matrix)
             if((MATRIX_SIZE/2 - 2<i && i<MATRIX_SIZE/2 + 2) && (MATRIX_SIZE/2 - 2<j && j<MATRIX_SIZE/2 + 2))
             {
                 matrix[i][j] = WATER;
-            }else if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)  // rempli les contours de la matrice d'eau
+            }
+            else if(i<WATER_LIMIT || j<WATER_LIMIT || i>=MATRIX_SIZE - WATER_LIMIT || j>=MATRIX_SIZE - WATER_LIMIT)  // rempli les contours de la matrice d'eau
             {
                 matrix[i][j] = WATER;
             }
@@ -29,14 +32,18 @@ void InitMatrixBanquise(int b_size, t_ground** matrix)
     }
 }
 
+// BENJAMIN - IMPLEMENTE LE POINT D'ARRIVE AU MILIEU D'UNE MATRICE
+
 void ImplementFinalPointMatrix(t_ground** matrix, int nb_size)
 {
-    int N = nb_size/2;                                              // On met la point final au milieu de la matrice
+    int N = nb_size/2;          // On met la point final au milieu de la matrice
     matrix[N][N] = FINAL_POINT;
 }
 
 
 /***** SPRING *****/
+
+// BENJAMIN - CREE UN RESSORT
 
 t_spring* CreateSpring()
 {
@@ -48,6 +55,8 @@ t_spring* CreateSpring()
 
     return spring;
 }
+
+// BENJAMIN - CREE LE TABLEAU DE RESSORT
 
 void CreateArrSpring(t_spring* arrspring)
 {
@@ -82,6 +91,8 @@ void CreateArrSpring(t_spring* arrspring)
     }
 }
 
+// BENJAMIN - IMPLEMENTE LES RESSORTS DANS LA MATRICE
+
 void ImplementSpringMatrix(t_ground** matrix, t_spring* arrspring)
 {
     int i;
@@ -91,12 +102,14 @@ void ImplementSpringMatrix(t_ground** matrix, t_spring* arrspring)
         posx = arrspring[i].position.x;
         posy = arrspring[i].position.y;
 
-        matrix[posy][posx] = SPRING;                // on met SPRING dans la matrice aux positions des differents ressorts
+        matrix[posy][posx] = SPRING;    // on met SPRING dans la matrice aux positions des differents ressorts
     }
 }
 
 
 /******* ROCHER *******/
+
+// BENJAMIN - VERIFIE S'IL Y'A UN ELEMENT PERTUBATEUR AUTOUR D'UNE CASE
 
 int CheckAround(t_ground** matrix, int x, int y)
 {
@@ -106,32 +119,24 @@ int CheckAround(t_ground** matrix, int x, int y)
         y == 0 ||
         x == MATRIX_SIZE-1 ||
         y == MATRIX_SIZE-1 ||
-        matrix[y-1][x-1] == HAMMER_PLINTH || matrix[y-1][x-1] == HAMMER_HEAD ||
-        matrix[y-1][x-1] == SPRING || matrix[y-1][x-1] == FINAL_POINT ||
-        matrix[y-1][x] == SPRING || matrix[y-1][x] == FINAL_POINT ||
-        matrix[y-1][x] == HAMMER_PLINTH || matrix[y-1][x] == HAMMER_HEAD ||
-        matrix[y-1][x+1] == SPRING || matrix[y-1][x+1] == FINAL_POINT ||
-        matrix[y-1][x+1] == HAMMER_PLINTH || matrix[y-1][x+1] == HAMMER_HEAD ||
-        matrix[y][x-1] == SPRING || matrix[y][x-1] == FINAL_POINT ||
-        matrix[y][x-1] == HAMMER_PLINTH || matrix[y][x-1] == HAMMER_HEAD ||
-        matrix[y][x+1] == SPRING || matrix[y][x+1] == FINAL_POINT ||
-        matrix[y][x+1] == HAMMER_PLINTH || matrix[y][x+1] == HAMMER_HEAD ||
-        matrix[y+1][x-1] == SPRING || matrix[y+1][x-1] == FINAL_POINT ||
-        matrix[y+1][x-1] == HAMMER_PLINTH || matrix[y+1][x-1] == HAMMER_HEAD ||
-        matrix[y+1][x] == SPRING || matrix[y+1][x] == FINAL_POINT ||
-        matrix[y+1][x] == HAMMER_PLINTH || matrix[y+1][x] == HAMMER_HEAD ||
-        matrix[y+1][x+1] == SPRING || matrix[y+1][x+1] == FINAL_POINT ||
-        matrix[y+1][x+1] == HAMMER_PLINTH || matrix[y+1][x+1] == HAMMER_HEAD ||
-        matrix[y][x] == SPRING || matrix[y][x] == FINAL_POINT ||
-        matrix[y][x] == HAMMER_PLINTH || matrix[y][x] == HAMMER_HEAD
+        matrix[y-1][x-1] == SPRING ||   matrix[y-1][x-1] == FINAL_POINT ||  matrix[y-1][x-1] == HAMMER_PLINTH ||    matrix[y-1][x-1] == HAMMER_HEAD ||
+        matrix[y-1][x] == SPRING ||     matrix[y-1][x] == FINAL_POINT ||    matrix[y-1][x] == HAMMER_PLINTH ||      matrix[y-1][x] == HAMMER_HEAD ||
+        matrix[y-1][x+1] == SPRING ||   matrix[y-1][x+1] == FINAL_POINT ||  matrix[y-1][x+1] == HAMMER_PLINTH ||    matrix[y-1][x+1] == HAMMER_HEAD ||
+        matrix[y][x-1] == SPRING ||     matrix[y][x-1] == FINAL_POINT ||    matrix[y][x-1] == HAMMER_PLINTH ||      matrix[y][x-1] == HAMMER_HEAD ||
+        matrix[y][x+1] == SPRING ||     matrix[y][x+1] == FINAL_POINT ||    matrix[y][x+1] == HAMMER_PLINTH ||      matrix[y][x+1] == HAMMER_HEAD ||
+        matrix[y+1][x-1] == SPRING ||   matrix[y+1][x-1] == FINAL_POINT ||  matrix[y+1][x-1] == HAMMER_PLINTH ||    matrix[y+1][x-1] == HAMMER_HEAD ||
+        matrix[y+1][x] == SPRING ||     matrix[y+1][x] == FINAL_POINT ||    matrix[y+1][x] == HAMMER_PLINTH ||      matrix[y+1][x] == HAMMER_HEAD ||
+        matrix[y+1][x+1] == SPRING ||   matrix[y+1][x+1] == FINAL_POINT ||  matrix[y+1][x+1] == HAMMER_PLINTH ||    matrix[y+1][x+1] == HAMMER_HEAD ||
+        matrix[y][x] == SPRING ||       matrix[y][x] == FINAL_POINT ||      matrix[y][x] == HAMMER_PLINTH ||        matrix[y][x] == HAMMER_HEAD
     ) return 1;
     else return 0;
 }
 
+// BENJAMIN - IMPLEMENTE LES ROCHERS DANS LA MATRICES
+
 void ImplementRockMatrix(t_ground** matrix, int nb_size)
 {
     int nb_rocks = MATRIX_SIZE * MATRIX_SIZE / 20;          // On définit le nombre de rochers selon la taille de la matrice (ici 5% des elements la matrice sont des rochers
-
     int posx, posy;
 
     for(int i=0; i<nb_rocks; i++)
@@ -146,7 +151,6 @@ void ImplementRockMatrix(t_ground** matrix, int nb_size)
             posy = RandomInt(0, MATRIX_SIZE-1);
             is_it_ok = CheckAround(matrix, posx, posy);
         }
-
         matrix[posy][posx] = ROCK;
     }
 }
@@ -154,11 +158,13 @@ void ImplementRockMatrix(t_ground** matrix, int nb_size)
 
 /******* ICE MELTING *******/
 
+// BENJAMIN - VERIFIE S'IL Y'A DE L'EAU AUTOUR D'UNE CASE
+
 int CheckWaterAround(t_banquise* banquise, int x, int y)
 {
     t_ground** matrix = (*banquise).matrix;
 
-    if  // regarde s'il y a de l'eau atour
+    if  // regarde s'il y a de l'eau autour
     (
         matrix[y-1][x] == WATER ||
         matrix[y][x+1] == WATER ||
@@ -168,53 +174,60 @@ int CheckWaterAround(t_banquise* banquise, int x, int y)
     else return 0;
 }
 
+// BENJAMIN - VERIFIE S'IL Y'A ENCORE DE LA BANQUISE DANS LA MATRICE
+
 int IsTherePackedIce(t_banquise* banquise)
 {
-    t_ground** matrix = (*banquise).matrix;
     int N = (*banquise).banquise_size;
     int ind = 0;
 
     int i, j;
-    for(i=0; i<N; i++)
+    for(i=0; i<N -1; i++)
     {
-        for(j=0; j<N; j++)
+        for(j=0; j<N -1; j++)
         {
-            if(matrix[i][j] == PACKED_ICE)
+            if((*banquise).matrix[i][j] == PACKED_ICE)
             {
-               ind += 1;                    // Compte le nombre de "banquise" dans la matrice
+               ind += 1;    // Compte le nombre de "banquise" dans la matrice
             }
         }
     }
-
     return ind;
 }
+
+// BENJAMIN - GERE LA FONTE DES GLACES
 
 void IceMelting(t_banquise* banquise)
 {
     if(IsTherePackedIce(banquise) > 0)
     {
-        t_ground** matrix = (*banquise).matrix;
         int N = (*banquise).banquise_size;
 
         int r = RandomInt(1, 10);
 
-        int posx = RandomInt(0, N-1);
-        int posy = RandomInt(0, N-1);
+        int posx = RandomInt(1, N-2);
+        int posy = RandomInt(1, N-2);
+        int is_it_ok = CheckWaterAround(banquise, posx, posy);
 
-        while(!((matrix[posy][posx] == PACKED_ICE) && CheckWaterAround(banquise, posx, posy))) // On veut une position où il y a de la glace et de l'eau juxtaposé
+        while(!((*banquise).matrix[posy][posx] == PACKED_ICE && is_it_ok)) // On veut une position où il y a de la glace et de l'eau juxtaposé
         {
-            posx = RandomInt(0, N-1);
-            posy = RandomInt(0, N-1);
+            posx = RandomInt(1, N-2);
+            posy = RandomInt(1, N-2);
+            is_it_ok = CheckWaterAround(banquise, posx, posy);
         }
-        if(r == 1)                      // 10 % de chances que ça fonde
+
+        if(r == 1)  // 10 % de chances que ça fonde
         {
-            matrix[posy][posx] = WATER;
+            (*banquise).matrix[posy][posx] = WATER;
         }
-    } else printf("Y'A PLUS DE BANQUISE ON VA TOUS MOURIIIR !!\n");
+    }
+    else printf("Y'A PLUS DE BANQUISE ON VA TOUS MOURIIIR !!\n");
 }
 
 
 /******** HAMMER *********/
+
+// BENJAMIN - CREE UN MARTEAU
 
 t_hammer* CreateHammer()
 {
@@ -228,6 +241,8 @@ t_hammer* CreateHammer()
     return hammer;
 }
 
+// BENJAMIN - CREE LE TABLEAU DES MARTEAUX
+
 void CreateArrHammer(t_hammer* arrhammer)
 {
     int i;
@@ -236,7 +251,7 @@ void CreateArrHammer(t_hammer* arrhammer)
         arrhammer[i] = *CreateHammer();
         switch(i)
         {
-            case 0 : arrhammer[i].plinth.x = HAMMER_PLINTH_GAP; // MArteau NOrd-OUest
+            case 0 : arrhammer[i].plinth.x = HAMMER_PLINTH_GAP;                  // MArteau NOrd-OUest
                      arrhammer[i].plinth.y = HAMMER_PLINTH_GAP;
                      arrhammer[i].head.x = arrhammer[i].plinth.x +1;
                      arrhammer[i].head.y = arrhammer[i].plinth.y;
@@ -254,7 +269,7 @@ void CreateArrHammer(t_hammer* arrhammer)
                      arrhammer[i].head.y = arrhammer[i].plinth.y;
                      arrhammer[i].state = LEFT;
                      break;
-            case 3 : arrhammer[i].plinth.x = HAMMER_PLINTH_GAP; // MArteau SUd-OUest
+            case 3 : arrhammer[i].plinth.x = HAMMER_PLINTH_GAP;                  // MArteau SUd-OUest
                      arrhammer[i].plinth.y = MATRIX_SIZE - HAMMER_PLINTH_GAP -1;
                      arrhammer[i].head.x = arrhammer[i].plinth.x;
                      arrhammer[i].head.y = arrhammer[i].plinth.y -1;
@@ -263,6 +278,8 @@ void CreateArrHammer(t_hammer* arrhammer)
         }
     }
 }
+
+// BENJAMIN - IMPLEMENTE LES MARTEAUX DANS LA MATRICE
 
 void ImplementHammerMatrix(t_ground** matrix, t_hammer* arrhammer)
 {
@@ -282,16 +299,12 @@ void ImplementHammerMatrix(t_ground** matrix, t_hammer* arrhammer)
 
 /******** BANQUISE ********/
 
+// BENJAMIN - INITIALISE UNE BANQUISE
+
 t_banquise* InitBanquise()
 {
     printf("Bienvenue dans le jeu de la banquise !\n");
 
-    /* TAILLE MATRICE                                               // Demander a l'utilisateur la taille de la matrice
-    printf("Saisir la taille du plateau : ");
-    int taille;
-    scanf("%d", &taille); */
-
-    //MATRICE :
     t_ground** banquise_matrix;                                     // matrice de la banquise
 
     int i;
