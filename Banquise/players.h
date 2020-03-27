@@ -15,7 +15,7 @@ typedef struct
     char *name;         // nom
     t_color color;      // couleur du joueur
     int id;             // id du Joueur
-    t_pos position;     // coordonnées du joeurs
+    t_pos position;     // coordonnées du joueur
     t_pos start_point;  // coordonnées du point de depart d'un joueur
     t_vector vect;      // vecteur de deplacement du joueur
     int score;          // score du joueur

@@ -6,7 +6,7 @@
 
 /******* AFFICHAGE *******/
 
-// BENJAMIN - CHANGE LA COULEUR
+// BENJAMIN - CHANGE LA COULEUR - O(1)
 
 void ChangeTextColor(t_color color)
 {
@@ -26,7 +26,7 @@ void ChangeTextColor(t_color color)
     }
 }
 
-// BENJAMIN - VERIFIE S'IL Y'A UN JOUEUR SUR UNE CASE
+// BENJAMIN - VERIFIE S'IL Y'A UN JOUEUR SUR UNE CASE - O(1)
 
 int CheckPosition(int indbanqx, int indbanqy, t_player* player)
 {
@@ -37,7 +37,7 @@ int CheckPosition(int indbanqx, int indbanqy, t_player* player)
     return ((death == 0) && (indbanqx == playerposx) && (indbanqy == playerposy)); // 1 si le joueur est vivant et sur les mêmes indices que la matrice
 }
 
-// BENJAMIN - CHANGE LA COULEUR POUR LES JOUEURS
+// BENJAMIN - CHANGE LA COULEUR POUR LES JOUEURS - O(n)
 
 void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int banqy)
 {
@@ -52,31 +52,31 @@ void ChangeColorPlayerMatrix(t_player* arr_player, int nb_player, int banqx, int
     }
 }
 
-// BENJAMIN - CHANGE LA COULEUR POUR LES SOLS
+// BENJAMIN - CHANGE LA COULEUR POUR LES SOLS - O(1)
 
 void ChangeColorGroundMatrix(t_ground ground)
 {
     switch(ground)
     {
-    case WATER : ChangeTextColor(WATER_COLOR); break;
-    case ICE : ChangeTextColor(ICE_COLOR); break;
-    case ROCK : ChangeTextColor(ROCK_COLOR); break;
-    case SPRING : ChangeTextColor(SPRING_COLOR); break;
-    case HAMMER_HEAD :
-    case HAMMER_PLINTH : ChangeTextColor(HAMMER_COLOR); break;
-    case FINAL_POINT : ChangeTextColor(FINAL_POINT_COLOR); break;
-    default : ChangeTextColor(COLOR_DEFAULT);
+        case WATER : ChangeTextColor(WATER_COLOR); break;
+        case ICE : ChangeTextColor(ICE_COLOR); break;
+        case ROCK : ChangeTextColor(ROCK_COLOR); break;
+        case SPRING : ChangeTextColor(SPRING_COLOR); break;
+        case HAMMER_HEAD :
+        case HAMMER_PLINTH : ChangeTextColor(HAMMER_COLOR); break;
+        case FINAL_POINT : ChangeTextColor(FINAL_POINT_COLOR); break;
+        default : ChangeTextColor(COLOR_DEFAULT);
     }
 }
 
-// BENJAMIN - AFFICHE LA MATRICE AVEC LES COULEURS
+// BENJAMIN - AFFICHE LA MATRICE AVEC LES COULEURS  - O(n²)
 
 void DisplayWithColors(t_banquise* banquise, t_player* arr_player, int nb_players)
 {
     t_ground** matrix = (*banquise).matrix;                             // récupère la matrice
     int b_size = (*banquise).banquise_size;                             // récupère la taille de la matrice
 
-    printf("la banquise a boug%c !\n", 130);
+    printf("La banquise a boug%c !\n", 130);
 
     int i, j;
     for(i=0; i<b_size; i++)

@@ -4,14 +4,14 @@
 
 #include "Utils.h"
 
-// BENJAMIN - RETOURNE AU HASARD UN NOMBRE ENTRE LES DEUX PARAMETRES
+// BENJAMIN - RETOURNE AU HASARD UN NOMBRE ENTRE LES DEUX PARAMETRES - O(1)
 
 int RandomInt(int rmin, int rmax)
 {
     return rand() % (rmax - rmin) + rmin;
 }
 
-// BENJAMIN - CHANGE LA COULEUR
+// BENJAMIN - CHANGE LA COULEUR - O(1)
 
 void textcolor(int color)
 {

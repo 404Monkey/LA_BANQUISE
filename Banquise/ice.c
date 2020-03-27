@@ -7,7 +7,7 @@
 
 /******* ICE *******/
 
-// BENJAMIN - GENERE ALEATOIREMENT DES GLACONS DANS LA MATRICE
+// BENJAMIN - GENERE ALEATOIREMENT DES GLACONS DANS LA MATRICE - O(1)
 
 void GenerateRandomIce(t_banquise* banquise)
 {
@@ -25,7 +25,7 @@ void GenerateRandomIce(t_banquise* banquise)
     }
 }
 
-// BENJAMIN - INITIALISE UN GLACON
+// BENJAMIN - INITIALISE UN GLACON - O(1)
 
 t_ice* InitIce(t_player* player)
 {
@@ -49,7 +49,7 @@ t_ice* InitIce(t_player* player)
 
 /******* DEPLACEMENT AUXILIAIRE GLACON *******/
 
-//HENINTSOA - FONCTION VERIFIANT SI LE GLACON EST SUR LE POINT DE SE DEPLACER EN DEHORS DU PLATEAU DE JEU
+//HENINTSOA - FONCTION VERIFIANT SI LE GLACON EST SUR LE POINT DE SE DEPLACER EN DEHORS DU PLATEAU DE JEU - O(1)
 
 int verif_exit_board_ice(int x, int y, int size_board)
 {
@@ -60,7 +60,7 @@ int verif_exit_board_ice(int x, int y, int size_board)
     else return 0;  //sinon retourne 0
 }
 
-//HENINTSOA - FONCTION CHERCHANT L'ID DU JOUEUR SE SITUANT DANS LA CASE ENTREE EN PARAMETRE
+//HENINTSOA - FONCTION CHERCHANT L'ID DU JOUEUR SE SITUANT DANS LA CASE ENTREE EN PARAMETRE - O(n)
 
 int verif_player_in_pos(int x, int y, t_player *arr_player, int nb_player)
 {
@@ -88,7 +88,7 @@ int verif_player_in_pos(int x, int y, t_player *arr_player, int nb_player)
     }
 }
 
-//HENINTSOA - FONCTION PERMETTANT DE GERER LA COLLISION ENTE UN GLACON ET UN JOUEUR
+//HENINTSOA - FONCTION PERMETTANT DE GERER LA COLLISION ENTE UN GLACON ET UN JOUEUR - O(1)
 
 void kill_by_ice(int x, int y, int id_killer, t_player *arr_player, int nb_player)
 {
@@ -98,12 +98,11 @@ void kill_by_ice(int x, int y, int id_killer, t_player *arr_player, int nb_playe
     arr_player[id_killer].score += 100; //recompense le joueur ayant initie la collision avec le glacon
 }
 
-//HENINTSOA - FONCTION VERIFIANT SI UN GLACON VEUT S'ENTASSER AVEC UN AUTRE / D'AUTRES GLACON(S) SUR UN ROCHER
+//HENINTSOA - FONCTION VERIFIANT SI UN GLACON VEUT S'ENTASSER AVEC UN AUTRE / D'AUTRES GLACON(S) SUR UN ROCHER - O(1)
 
 int verif_ice_heap(int x,int y, t_banquise *board)
 {
-    if((*board).matrix[y][x] == ROCK )//||        //verifie si dans la trajectoie du glacon il y a cet alignement contigu precis: glacon et rocher
-            //(*board).matrix[y][x] == PACKED_ICE)    //verifie si dans la trajectoie du glacon il y a cet alignement contigu precis: glacon et glacon (partant du principe qu'un glacon ne peut pousser qu'un autre)
+    if((*board).matrix[y][x] == ROCK )          //verifie si dans la trajectoie du glacon il y a cet alignement contigu precis: glacon et rocher
     {
         return 1;
     }
@@ -112,7 +111,7 @@ int verif_ice_heap(int x,int y, t_banquise *board)
 
 /******** SPRING ********/
 
-// BENJAMIN - VERIFIE QUEL RESSORT A ETE TOUCHE
+// BENJAMIN - VERIFIE QUEL RESSORT A ETE TOUCHE - O(n)
 
 t_spring* WhichSpringIsIt(t_banquise* board, int headx, int heady)
 {
@@ -131,7 +130,7 @@ t_spring* WhichSpringIsIt(t_banquise* board, int headx, int heady)
     return spring;
 }
 
-// BENJAMIN - CHANGE LE VECTEUR D'UN GLACON SELON LE RESSORT
+// BENJAMIN - CHANGE LE VECTEUR D'UN GLACON SELON LE RESSORT - O(1)
 
 void RotationSpringIce(t_ice* ice, t_spring* spring)
 {
@@ -218,7 +217,7 @@ void RotationSpringIce(t_ice* ice, t_spring* spring)
 
 /******* HAMMER *******/
 
-// BENJAMIN - VERIFIE QUEL MARTEAU A ETE TOUCHE
+// BENJAMIN - VERIFIE QUEL MARTEAU A ETE TOUCHE - O(n)
 
 t_hammer* WhichHammerIsIt(t_banquise* board, int headx, int heady)
 {
@@ -237,7 +236,7 @@ t_hammer* WhichHammerIsIt(t_banquise* board, int headx, int heady)
     return hammer;
 }
 
-// BENJAMIN - STOPPE UN GLACON SI LE SOCLE D'UN MARTEAU EST DERRIERE SA TETE
+// BENJAMIN - STOPPE UN GLACON SI LE SOCLE D'UN MARTEAU EST DERRIERE SA TETE - O(1)
 
 void StopIceHammer(t_ice* ice, t_hammer* hammer)
 {
@@ -257,7 +256,7 @@ void StopIceHammer(t_ice* ice, t_hammer* hammer)
     }
 }
 
-// BENJAMIN - CALCULE LE SENS DE ROTATION DU MARTEAU
+// BENJAMIN - CALCULE LE SENS DE ROTATION DU MARTEAU - O(1)
 
 int RotationStateHammerMovement(t_ice* ice, t_hammer* hammer)
 {
@@ -286,7 +285,7 @@ int RotationStateHammerMovement(t_ice* ice, t_hammer* hammer)
     return rotationstate;
 }
 
-// BENJAMIN - CHANGE LE VECTEUR D'UN GLACON
+// BENJAMIN - CHANGE LE VECTEUR D'UN GLACON - O(1)
 
 void ChangeIceVector(t_ice* ice, t_hammer* hammer, int rotationstate)
 {
@@ -342,7 +341,7 @@ void ChangeIceVector(t_ice* ice, t_hammer* hammer, int rotationstate)
     }
 }
 
-//BENJAMIN - JOUE LES ANIMATIONS DU MARTEAU PUIS CHANGE LE VECTEUR DU GLACON
+//BENJAMIN - JOUE LES ANIMATIONS DU MARTEAU PUIS CHANGE LE VECTEUR DU GLACON - O(1)
 
 void InteractionHammer(t_ice* ice, t_hammer* hammer, t_banquise* banquise, t_player* arr_player, int nb_player)
 {
@@ -418,9 +417,9 @@ void InteractionHammer(t_ice* ice, t_hammer* hammer, t_banquise* banquise, t_pla
     }
 }
 
-/******* DESPLACEMENT *******/
+/******* DISPLACEMENT *******/
 
-//HENINTSOA - FONCTION S'OCCUPANT DU DEPLACEMENT D'UN GLACON
+//HENINTSOA - FONCTION S'OCCUPANT DU DEPLACEMENT D'UN GLACON - O(n)
 
 void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int nb_player)
 {
@@ -428,10 +427,13 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
     {
         int pos_x = (*ice).position.x,
             pos_y = (*ice).position.y,
+
             dx = (*ice).vect.dx,
             dy = (*ice).vect.dy,
+
             new_pos_x = pos_x + dx,
             new_pos_y = pos_y + dy,
+
             next_new_pos_x = new_pos_x + dx,
             next_new_pos_y = new_pos_y + dy;;
 
@@ -446,43 +448,32 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
 
             int obstacle = (*board).matrix[new_pos_y][new_pos_x];
 
-            switch (obstacle){                                                  //evalue l'obsatacle que va rencontrer le glacon dans son deplacement
-                case ROCK:                                                      //si c'est un rocher,
-                case HAMMER_PLINTH :
+            switch (obstacle){                                                      //evalue l'obsatacle que va rencontrer le glacon dans son deplacement
+                case ROCK:                                                          //si c'est un rocher,
+                case HAMMER_PLINTH :                                                //si c'est le socle d'un marteau,
                     (*ice).is_moving = 0;                                           //on ne bouge plus le glacon
                 break;
-                case WATER:                                                     //si c'est de l'eau,
+
+                case WATER:                                                         //si c'est de l'eau,
                     (*board).matrix[new_pos_y][new_pos_x] = PACKED_ICE;             //la nouvelle case du plateau de jeu occupee par le glacon devient une banquise
-                    //if ((*board).matrix[pos_y][pos_x] != FINAL_POINT)
-                    //{
                     (*board).matrix[pos_y][pos_x] = PACKED_ICE;                     //l'ancienne case du plateau de jeu occupé par le glacon se libere (redevient banquise)
-                    //}
                     (*ice).is_moving = 0;                                           //on ne bouge plus le glacon
                 break;
-                case PLAYER:                                                    //si c'est un joueur,
-                    kill_by_ice(new_pos_x,new_pos_y,(*ice).player_source,arr_player,nb_player);     //on change le score et la variable mort des joueurs concernes
+
+                case PLAYER:                                                        //si c'est un joueur,
+                    kill_by_ice(new_pos_x, new_pos_y, (*ice).player_source, arr_player, nb_player);     //on change le score et la variable mort des joueurs concernes
                     (*board).matrix[new_pos_y][new_pos_x] = ICE;                    //cette nouvelle case du plateau de jeu est occupee par le glacon
                     (*board).matrix[pos_y][pos_x] = PACKED_ICE;                     //l'ancienne case du plateau de jeu occupé par le glason se libere (redevient banquise)
                     (*ice).position.x = new_pos_x;                                  //on affecte cette nouvelle position en x au glacon
                     (*ice).position.y = new_pos_y;                                  //on affecte cette nouvelle position en y au glacon
                 break;
-                case FINAL_POINT:                                               //si c'est un point d'arrivee ou un autre glacon,
-                    /*if  (   verif_exit_board_ice(next_new_pos_x,next_new_pos_y,(*board).banquise_size) ||   //vraie si dans 2 deplacements, la position du glacon est hors plateau de jeu
-                            verif_ice_heap(next_new_pos_x,next_new_pos_y,board) )                            //vraie s'il y a entassement de glacons sur un rocher (ou pas)
-                    {
-                        (*ice).is_moving = 0;                                       //si condition vraie, on ne bouge plus le glacon
-                    }
-                    else                                                            //sinon le glacon peu continuer a se deplacer
-                    {
-                        (*ice).position.x = new_pos_x;                              //on affecte cette nouvelle position en x au glacon
-                        (*ice).position.y = new_pos_y;                              //on affecte cette nouvelle position en y au glacon
-                        displacement_ice(ice,board,arr_player,nb_player);           //on rapelle recursivement la fonction avec les parametres ainsi modifies
-                        (*ice).is_moving = 0;                                       //on casse le bouclage (while) pour rendre uniquement effectif le depacement du glacon dans l'appel recursive
-                    }*/
-                    (*board).matrix[pos_y][pos_x] = PACKED_ICE;
-                    (*ice).is_moving = 0;
+
+                case FINAL_POINT:                                                   //si c'est un point d'arrivee,
+                    (*board).matrix[pos_y][pos_x] = PACKED_ICE;                     //l'ancienne case du plateau de jeu occupé par le glason se libere (redevient banquise)
+                    (*ice).is_moving = 0;                                           //on ne bouge plus le glacon
                 break;
-                case ICE:                                               //si c'est un point d'arrivee ou un autre glacon,
+
+                case ICE:                                                           //si c'est un autre glacon,
                     if(verif_exit_board_ice(next_new_pos_x,next_new_pos_y,(*board).banquise_size) ||   //vraie si dans 2 deplacements, la position du glacon est hors plateau de jeu
                        verif_ice_heap(next_new_pos_x,next_new_pos_y,board))                            //vraie s'il y a entassement de glacons sur un rocher (ou pas)
                     {
@@ -496,15 +487,16 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
                         (*ice).is_moving = 0;                                       //on casse le bouclage (while) pour rendre uniquement effectif le depacement du glacon dans l'appel recursive
                     }
                 break;
-                case PACKED_ICE:                                                //si c'est de la banquise,
+
+                case PACKED_ICE:                                                    //si c'est de la banquise,
                     (*board).matrix[new_pos_y][new_pos_x] = ICE;                    //cette nouvelle case du plateau de jeu est occupee par le glacon
-                    //if ((*board).matrix[pos_y][pos_x] != FINAL_POINT)
-                    //{
+
                     (*board).matrix[pos_y][pos_x] = PACKED_ICE;                     //l'ancienne case du plateau de jeu occupé par le glacon se libere (redevient banquise)
-                    //}
+
                     (*ice).position.x = new_pos_x;                                  //on affecte cette nouvelle position en x au glacon
                     (*ice).position.y = new_pos_y;                                  //on affecte cette nouvelle position en y au glacon
                 break;
+
                 case SPRING:
                     (*board).matrix[pos_y][pos_x] = PACKED_ICE;
 
@@ -514,6 +506,7 @@ void displacement_ice(t_ice *ice, t_banquise *board, t_player *arr_player, int n
                     RotationSpringIce(ice, spring);                                 // On change le vecteur du glacon
                     (*board).matrix[(*ice).position.y][(*ice).position.x] = ICE;
                 break;
+
                 case HAMMER_HEAD :
                 {
                     t_hammer* hammer = malloc(sizeof(t_hammer));

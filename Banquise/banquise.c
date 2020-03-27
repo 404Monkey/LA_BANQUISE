@@ -10,7 +10,7 @@
 
 /******* INITIALISATION BANQUISE *******/
 
-// BENJAMIN - INITIALISE UNE MATRICE DE T_GROUND
+// BENJAMIN - INITIALISE UNE MATRICE DE T_GROUND - O(n²)
 
 void InitMatrixBanquise(int b_size, t_ground** matrix)
 {
@@ -32,7 +32,7 @@ void InitMatrixBanquise(int b_size, t_ground** matrix)
     }
 }
 
-// BENJAMIN - IMPLEMENTE LE POINT D'ARRIVE AU MILIEU D'UNE MATRICE
+// BENJAMIN - IMPLEMENTE LE POINT D'ARRIVE AU MILIEU D'UNE MATRICE - O(1)
 
 void ImplementFinalPointMatrix(t_ground** matrix, int nb_size)
 {
@@ -43,7 +43,7 @@ void ImplementFinalPointMatrix(t_ground** matrix, int nb_size)
 
 /***** SPRING *****/
 
-// BENJAMIN - CREE UN RESSORT
+// BENJAMIN - CREE UN RESSORT  - O(1)
 
 t_spring* CreateSpring()
 {
@@ -56,7 +56,7 @@ t_spring* CreateSpring()
     return spring;
 }
 
-// BENJAMIN - CREE LE TABLEAU DE RESSORT
+// BENJAMIN - CREE LE TABLEAU DE RESSORT - O(n)
 
 void CreateArrSpring(t_spring* arrspring)
 {
@@ -72,16 +72,19 @@ void CreateArrSpring(t_spring* arrspring)
                 arrspring[i].position.y = N;
                 arrspring[i].where = WEST;
                 break;
+
             case 1 :                                // Ressort EAST
                 arrspring[i].position.x = MATRIX_SIZE - SPRING_GAP -1;
                 arrspring[i].position.y = N;
                 arrspring[i].where = EAST;
                 break;
+
             case 2 :                                // Ressort NORTH
                 arrspring[i].position.x = N;
                 arrspring[i].position.y = SPRING_GAP;
                 arrspring[i].where = NORTH;
                 break;
+
             case 3 :                                // Ressort SOUTH
                 arrspring[i].position.x = N;
                 arrspring[i].position.y = MATRIX_SIZE - SPRING_GAP - 1;
@@ -91,7 +94,7 @@ void CreateArrSpring(t_spring* arrspring)
     }
 }
 
-// BENJAMIN - IMPLEMENTE LES RESSORTS DANS LA MATRICE
+// BENJAMIN - IMPLEMENTE LES RESSORTS DANS LA MATRICE - O(n)
 
 void ImplementSpringMatrix(t_ground** matrix, t_spring* arrspring)
 {
@@ -109,7 +112,7 @@ void ImplementSpringMatrix(t_ground** matrix, t_spring* arrspring)
 
 /******* ROCHER *******/
 
-// BENJAMIN - VERIFIE S'IL Y'A UN ELEMENT PERTUBATEUR AUTOUR D'UNE CASE
+// BENJAMIN - VERIFIE S'IL Y'A UN ELEMENT PERTUBATEUR AUTOUR D'UNE CASE - O(1)
 
 int CheckAround(t_ground** matrix, int x, int y)
 {
@@ -119,20 +122,32 @@ int CheckAround(t_ground** matrix, int x, int y)
         y == 0 ||
         x == MATRIX_SIZE-1 ||
         y == MATRIX_SIZE-1 ||
-        matrix[y-1][x-1] == SPRING ||   matrix[y-1][x-1] == FINAL_POINT ||  matrix[y-1][x-1] == HAMMER_PLINTH ||    matrix[y-1][x-1] == HAMMER_HEAD ||
-        matrix[y-1][x] == SPRING ||     matrix[y-1][x] == FINAL_POINT ||    matrix[y-1][x] == HAMMER_PLINTH ||      matrix[y-1][x] == HAMMER_HEAD ||
-        matrix[y-1][x+1] == SPRING ||   matrix[y-1][x+1] == FINAL_POINT ||  matrix[y-1][x+1] == HAMMER_PLINTH ||    matrix[y-1][x+1] == HAMMER_HEAD ||
-        matrix[y][x-1] == SPRING ||     matrix[y][x-1] == FINAL_POINT ||    matrix[y][x-1] == HAMMER_PLINTH ||      matrix[y][x-1] == HAMMER_HEAD ||
-        matrix[y][x+1] == SPRING ||     matrix[y][x+1] == FINAL_POINT ||    matrix[y][x+1] == HAMMER_PLINTH ||      matrix[y][x+1] == HAMMER_HEAD ||
-        matrix[y+1][x-1] == SPRING ||   matrix[y+1][x-1] == FINAL_POINT ||  matrix[y+1][x-1] == HAMMER_PLINTH ||    matrix[y+1][x-1] == HAMMER_HEAD ||
-        matrix[y+1][x] == SPRING ||     matrix[y+1][x] == FINAL_POINT ||    matrix[y+1][x] == HAMMER_PLINTH ||      matrix[y+1][x] == HAMMER_HEAD ||
-        matrix[y+1][x+1] == SPRING ||   matrix[y+1][x+1] == FINAL_POINT ||  matrix[y+1][x+1] == HAMMER_PLINTH ||    matrix[y+1][x+1] == HAMMER_HEAD ||
-        matrix[y][x] == SPRING ||       matrix[y][x] == FINAL_POINT ||      matrix[y][x] == HAMMER_PLINTH ||        matrix[y][x] == HAMMER_HEAD
+
+        matrix[y-1][x-1] == SPRING ||   matrix[y-1][x-1] == FINAL_POINT ||
+        matrix[y-1][x] == SPRING ||     matrix[y-1][x] == FINAL_POINT ||
+        matrix[y-1][x+1] == SPRING ||   matrix[y-1][x+1] == FINAL_POINT ||
+        matrix[y][x-1] == SPRING ||     matrix[y][x-1] == FINAL_POINT ||
+        matrix[y][x+1] == SPRING ||     matrix[y][x+1] == FINAL_POINT ||
+        matrix[y+1][x-1] == SPRING ||   matrix[y+1][x-1] == FINAL_POINT ||
+        matrix[y+1][x] == SPRING ||     matrix[y+1][x] == FINAL_POINT ||
+        matrix[y+1][x+1] == SPRING ||   matrix[y+1][x+1] == FINAL_POINT ||
+        matrix[y][x] == SPRING ||       matrix[y][x] == FINAL_POINT ||
+
+        matrix[y-1][x-1] == HAMMER_PLINTH ||    matrix[y-1][x-1] == HAMMER_HEAD ||
+        matrix[y-1][x] == HAMMER_PLINTH ||      matrix[y-1][x] == HAMMER_HEAD ||
+        matrix[y-1][x+1] == HAMMER_PLINTH ||    matrix[y-1][x+1] == HAMMER_HEAD ||
+        matrix[y][x-1] == HAMMER_PLINTH ||      matrix[y][x-1] == HAMMER_HEAD ||
+        matrix[y][x+1] == HAMMER_PLINTH ||      matrix[y][x+1] == HAMMER_HEAD ||
+        matrix[y+1][x-1] == HAMMER_PLINTH ||    matrix[y+1][x-1] == HAMMER_HEAD ||
+        matrix[y+1][x-1] == HAMMER_PLINTH ||    matrix[y+1][x-1] == HAMMER_HEAD ||
+        matrix[y+1][x] == HAMMER_PLINTH ||      matrix[y+1][x] == HAMMER_HEAD ||
+        matrix[y+1][x+1] == HAMMER_PLINTH ||    matrix[y+1][x+1] == HAMMER_HEAD ||
+        matrix[y][x] == HAMMER_PLINTH ||        matrix[y][x] == HAMMER_HEAD
     ) return 1;
     else return 0;
 }
 
-// BENJAMIN - IMPLEMENTE LES ROCHERS DANS LA MATRICES
+// BENJAMIN - IMPLEMENTE LES ROCHERS DANS LA MATRICES - O(n*p²)
 
 void ImplementRockMatrix(t_ground** matrix, int nb_size)
 {
@@ -158,7 +173,7 @@ void ImplementRockMatrix(t_ground** matrix, int nb_size)
 
 /******* ICE MELTING *******/
 
-// BENJAMIN - VERIFIE S'IL Y'A DE L'EAU AUTOUR D'UNE CASE
+// BENJAMIN - VERIFIE S'IL Y'A DE L'EAU AUTOUR D'UNE CASE - O(1)
 
 int CheckWaterAround(t_banquise* banquise, int x, int y)
 {
@@ -174,7 +189,7 @@ int CheckWaterAround(t_banquise* banquise, int x, int y)
     else return 0;
 }
 
-// BENJAMIN - VERIFIE S'IL Y'A ENCORE DE LA BANQUISE DANS LA MATRICE
+// BENJAMIN - VERIFIE S'IL Y'A ENCORE DE LA BANQUISE DANS LA MATRICE - O(n²)
 
 int IsTherePackedIce(t_banquise* banquise)
 {
@@ -195,7 +210,7 @@ int IsTherePackedIce(t_banquise* banquise)
     return ind;
 }
 
-// BENJAMIN - GERE LA FONTE DES GLACES
+// BENJAMIN - GERE LA FONTE DES GLACES - O(n²)
 
 void IceMelting(t_banquise* banquise)
 {
@@ -227,7 +242,7 @@ void IceMelting(t_banquise* banquise)
 
 /******** HAMMER *********/
 
-// BENJAMIN - CREE UN MARTEAU
+// BENJAMIN - CREE UN MARTEAU - O(1)
 
 t_hammer* CreateHammer()
 {
@@ -241,7 +256,7 @@ t_hammer* CreateHammer()
     return hammer;
 }
 
-// BENJAMIN - CREE LE TABLEAU DES MARTEAUX
+// BENJAMIN - CREE LE TABLEAU DES MARTEAUX - O(n)
 
 void CreateArrHammer(t_hammer* arrhammer)
 {
@@ -257,18 +272,21 @@ void CreateArrHammer(t_hammer* arrhammer)
                      arrhammer[i].head.y = arrhammer[i].plinth.y;
                      arrhammer[i].state = RIGHT;
                      break;
+
             case 1 : arrhammer[i].plinth.x = MATRIX_SIZE - HAMMER_PLINTH_GAP -1; // MArteau NOrd-est
                      arrhammer[i].plinth.y = HAMMER_PLINTH_GAP;
                      arrhammer[i].head.x = arrhammer[i].plinth.x;
                      arrhammer[i].head.y = arrhammer[i].plinth.y +1;
                      arrhammer[i].state = BOTTOM;
                      break;
+
             case 2 : arrhammer[i].plinth.x = MATRIX_SIZE - HAMMER_PLINTH_GAP -1; // MArteau SUd-est
                      arrhammer[i].plinth.y = MATRIX_SIZE - HAMMER_PLINTH_GAP -1;
                      arrhammer[i].head.x = arrhammer[i].plinth.x -1;
                      arrhammer[i].head.y = arrhammer[i].plinth.y;
                      arrhammer[i].state = LEFT;
                      break;
+
             case 3 : arrhammer[i].plinth.x = HAMMER_PLINTH_GAP;                  // MArteau SUd-OUest
                      arrhammer[i].plinth.y = MATRIX_SIZE - HAMMER_PLINTH_GAP -1;
                      arrhammer[i].head.x = arrhammer[i].plinth.x;
@@ -279,7 +297,7 @@ void CreateArrHammer(t_hammer* arrhammer)
     }
 }
 
-// BENJAMIN - IMPLEMENTE LES MARTEAUX DANS LA MATRICE
+// BENJAMIN - IMPLEMENTE LES MARTEAUX DANS LA MATRICE - O(n)
 
 void ImplementHammerMatrix(t_ground** matrix, t_hammer* arrhammer)
 {
@@ -299,7 +317,7 @@ void ImplementHammerMatrix(t_ground** matrix, t_hammer* arrhammer)
 
 /******** BANQUISE ********/
 
-// BENJAMIN - INITIALISE UNE BANQUISE
+// BENJAMIN - INITIALISE UNE BANQUISE - O(1)
 
 t_banquise* InitBanquise()
 {

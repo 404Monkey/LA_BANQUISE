@@ -6,7 +6,7 @@
 
 /******* PLAYERS *******/
 
-// BENJAMIN - CREE UN JOUEUR
+// BENJAMIN - CREE UN JOUEUR - O(1)
 
 t_player* CreatePlayer(t_color color, int id)
 {
@@ -14,6 +14,7 @@ t_player* CreatePlayer(t_color color, int id)
 
     char* name = malloc(sizeof(char));
     printf("Joueur %d, Veuillez rentrer votre nom : ", id);
+    fflush(stdin);
     scanf("%s", name);
     (*player).name = name;
 
@@ -29,7 +30,7 @@ t_player* CreatePlayer(t_color color, int id)
     return player;
 }
 
-// BENJAMIN - CREE LE TABLEAU DES JOUEURS
+// BENJAMIN - CREE LE TABLEAU DES JOUEURS - O(n)
 
 void CreateArrPlayer(t_player* arr_player, int nb_player)
 {
@@ -40,17 +41,20 @@ void CreateArrPlayer(t_player* arr_player, int nb_player)
         {
             case 0 : arr_player[i].position.x = arr_player[i].start_point.x =PLAYER_GAP;
                      arr_player[i].position.y = arr_player[i].start_point.y = PLAYER_GAP; break;
+
             case 1 : arr_player[i].position.x = arr_player[i].start_point.x = MATRIX_SIZE - PLAYER_GAP-1;
                      arr_player[i].position.y = arr_player[i].start_point.y = PLAYER_GAP; break;
+
             case 2 : arr_player[i].position.x = arr_player[i].start_point.x = MATRIX_SIZE - PLAYER_GAP -1;
                      arr_player[i].position.y = arr_player[i].start_point.y = MATRIX_SIZE - PLAYER_GAP -1; break;
+
             case 3 : arr_player[i].position.x = arr_player[i].start_point.x = PLAYER_GAP;
                      arr_player[i].position.y = arr_player[i].start_point.y = MATRIX_SIZE - PLAYER_GAP-1; break;
         }
     }
 }
 
-// BENJAMIN - IMPLEMENTE UN JOUEUR DANS LA MATRICE
+// BENJAMIN - IMPLEMENTE UN JOUEUR DANS LA MATRICE - O(1)
 
 void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player)
 {
@@ -60,7 +64,7 @@ void ImplementPlayerMatrix_aux(t_banquise* banquise, t_player* player)
     (*banquise).matrix[posy][posx] = PLAYER; // Implemente PLAYER à la position du joueur
 }
 
-// BENJAMIN - IMPLEMENTE TOUS LES JOUEURS DANS LA MATRICE
+// BENJAMIN - IMPLEMENTE TOUS LES JOUEURS DANS LA MATRICE - O(n)
 
 void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_player)
 {
@@ -71,16 +75,16 @@ void ImplementPlayerMatrix(t_banquise* banquise, t_player* arr_player, int nb_pl
     }
 }
 
-// BENJAMIN - RESSUSCITE UN JOUEUR
+// BENJAMIN - RESSUSCITE UN JOUEUR - O(1)
 
 void RespawnPlayer(t_player* player, t_banquise* banquise)
 {
     if((*player).death == 1)
     {
         system("cls");
-        printf("%s t'es mort :/\n", (*player).name);
-        printf("- 100 points ;P\n");
-        Sleep(500);
+        printf("Vous etes mort %s !\n", (*player).name);
+        printf("  - 100 points \n");
+        Sleep(1500);
 
         (*player).position.x = (*player).start_point.x;
         (*player).position.y = (*player).start_point.y;
