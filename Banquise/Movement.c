@@ -84,7 +84,7 @@ int verif_board(int x,int y, int dx, int dy, t_banquise *board)
         || (case_board == HAMMER_PLINTH)       //verifie si la case est occupee par un socle de marteau
         || ((case_board == ICE) && (next_case_board == ICE                  //verifie si la case voulue par le deplacement est un glacon suivi d'un autre,
                                     || next_case_board == ROCK              //d'un rocher
-                                    || next_case_board == HAMMER_HEAD       //ou bien d'une partie de marteau.
+                                    || next_case_board == HAMMER_HEAD       //ou bien d'une partie de marteau
                                     || next_case_board == HAMMER_PLINTH))
     )
     {
@@ -150,6 +150,21 @@ void verif_player_interaction(t_player *player, t_banquise *board, t_player *arr
     }
 }
 
+//HENINTSOA - FONCTION RENDANT EFFECTIF LE DEPLACMENT DU JOUEUR, VERIFIANT ET APPLIQUANT LES ACTIONS/CHANGEMENTS ENGENDRES PAR CELUI-CI - O(1)
+
+void final_displacement(t_player *player, t_banquise *board, t_player *arr_player, int nb_player, int pos_x, int pos_y)
+{
+    int new_pos_x = (*player).position.x,                               //recupere la nouvelle position en x du joueur
+        new_pos_y = (*player).position.y;                               //recupere la nouvelle position en y du joueur
+
+    (*board).matrix[pos_y][pos_x] = PACKED_ICE;                         //libere l'ancienne case du plateau de jeu occupé par le joueur
+    if (verif_player_death(player,new_pos_x,new_pos_y,board) != 1)      //vrai si le joueur est vivant, sinon, le declare le comme mort
+    {
+        verif_player_interaction(player,board,arr_player,nb_player);    //execute une action en fonction de l'objet avec lequel le joueur est entre en interaction
+        (*board).matrix[new_pos_y][new_pos_x] = PLAYER;                 //indique que la nouvelle case du plateau de jeu occupé par le joueur est occupé par un joueur
+    }
+}
+
 
 /*********** FONCTION PRINCIPALE DE DEPLACEMENT *************/
 
@@ -184,15 +199,7 @@ void displacement_player(t_player *player, t_banquise *board, t_player *arr_play
         }
         else                                                                //sinon, le joueur peut effectuer le deplacement
         {
-            int new_pos_x = (*player).position.x,                               //recupere la nouvelle position en x du joueur
-                new_pos_y = (*player).position.y;                               //recupere la nouvelle position en y du joueur
-
-            (*board).matrix[pos_y][pos_x] = PACKED_ICE;                         //libere l'ancienne case du plateau de jeu occupé par le joueur
-            if (verif_player_death(player,new_pos_x,new_pos_y,board) != 1)  //vrai si le joueur est vivant, sinon, le declare le comme mort
-            {
-                verif_player_interaction(player,board,arr_player,nb_player);//execute une action en fonction de l'objet avec lequel le joueur est entre en interaction
-                (*board).matrix[new_pos_y][new_pos_x] = PLAYER;             //indique que la nouvelle case du plateau de jeu occupé par le joueur est occupé par un joueur
-            }
+            final_displacement(player,board,arr_player,nb_player,pos_x,pos_y);  //verifie et applique les actions/changements en consequence du deplacement
         }
     }
 }
