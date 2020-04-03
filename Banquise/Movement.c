@@ -108,7 +108,7 @@ int verif_displacement(t_player *player, t_banquise *board)
     {
         return 1;                           //retourne vrai si le déplacement est impossible
     }
-    else if(verif_board(x,y,dx,dy,board))   //verifie si le joueur veut se déplacer dans une case ou il ne peut pas se rendre
+    else if(verif_board(x,y,dx,dy,board))   //verifie si le joueur veut se déplacer dans une case où il ne peut pas se rendre
     {
         return 1;                           //retourne vrai si le déplacement est impossible
     }

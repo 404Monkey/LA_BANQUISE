@@ -116,35 +116,30 @@ void ImplementSpringMatrix(t_ground** matrix, t_spring* arrspring)
 
 int CheckAround(t_ground** matrix, int x, int y)
 {
-    if  // Ici on veut pas de rocher aux dernieres lignes de la matrice, autour d'un marteau, d'un ressort ou du point final
-    (
-        x == 0 ||
-        y == 0 ||
-        x == MATRIX_SIZE-1 ||
-        y == MATRIX_SIZE-1 ||
+    int ret = 0;
 
-        matrix[y-1][x-1] == SPRING ||   matrix[y-1][x-1] == FINAL_POINT ||
-        matrix[y-1][x] == SPRING ||     matrix[y-1][x] == FINAL_POINT ||
-        matrix[y-1][x+1] == SPRING ||   matrix[y-1][x+1] == FINAL_POINT ||
-        matrix[y][x-1] == SPRING ||     matrix[y][x-1] == FINAL_POINT ||
-        matrix[y][x+1] == SPRING ||     matrix[y][x+1] == FINAL_POINT ||
-        matrix[y+1][x-1] == SPRING ||   matrix[y+1][x-1] == FINAL_POINT ||
-        matrix[y+1][x] == SPRING ||     matrix[y+1][x] == FINAL_POINT ||
-        matrix[y+1][x+1] == SPRING ||   matrix[y+1][x+1] == FINAL_POINT ||
-        matrix[y][x] == SPRING ||       matrix[y][x] == FINAL_POINT ||
+    if(!(x == 0 || y == 0 || x == MATRIX_SIZE-1 || y == MATRIX_SIZE-1)) // Ici on veut pas de rocher aux contours de la matrice
+    {
+        for(int i = x-1; i <= x+1; i++)
+        {
+            for(int j = y-1; j <= y+1; j++)
+            {
+                if  // S'il y a un element perturbateur autour (marteau, ressort ou point final) on ajoute 1 à ret
+                (
+                    matrix[j][i] == SPRING ||
+                    matrix[j][i] == FINAL_POINT ||
+                    matrix[j][i] == HAMMER_PLINTH ||
+                    matrix[j][i] == HAMMER_HEAD
+                )
+                ret += 1;
+            }
+        }
+    }
 
-        matrix[y-1][x-1] == HAMMER_PLINTH ||    matrix[y-1][x-1] == HAMMER_HEAD ||
-        matrix[y-1][x] == HAMMER_PLINTH ||      matrix[y-1][x] == HAMMER_HEAD ||
-        matrix[y-1][x+1] == HAMMER_PLINTH ||    matrix[y-1][x+1] == HAMMER_HEAD ||
-        matrix[y][x-1] == HAMMER_PLINTH ||      matrix[y][x-1] == HAMMER_HEAD ||
-        matrix[y][x+1] == HAMMER_PLINTH ||      matrix[y][x+1] == HAMMER_HEAD ||
-        matrix[y+1][x-1] == HAMMER_PLINTH ||    matrix[y+1][x-1] == HAMMER_HEAD ||
-        matrix[y+1][x-1] == HAMMER_PLINTH ||    matrix[y+1][x-1] == HAMMER_HEAD ||
-        matrix[y+1][x] == HAMMER_PLINTH ||      matrix[y+1][x] == HAMMER_HEAD ||
-        matrix[y+1][x+1] == HAMMER_PLINTH ||    matrix[y+1][x+1] == HAMMER_HEAD ||
-        matrix[y][x] == HAMMER_PLINTH ||        matrix[y][x] == HAMMER_HEAD
-    ) return 1;
-    else return 0;
+    if(ret > 0)
+    {
+        return 1;
+    } else return 0;
 }
 
 // BENJAMIN - IMPLEMENTE LES ROCHERS DANS LA MATRICES - O(n*p²)
@@ -218,8 +213,6 @@ void IceMelting(t_banquise* banquise)
     {
         int N = (*banquise).banquise_size;
 
-        int r = RandomInt(1, 10);
-
         int posx = RandomInt(1, N-2);
         int posy = RandomInt(1, N-2);
         int is_it_ok = CheckWaterAround(banquise, posx, posy);
@@ -230,6 +223,8 @@ void IceMelting(t_banquise* banquise)
             posy = RandomInt(1, N-2);
             is_it_ok = CheckWaterAround(banquise, posx, posy);
         }
+
+        int r = RandomInt(1, 10);
 
         if(r == 1)  // 10 % de chances que ça fonde
         {
